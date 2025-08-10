@@ -1,8 +1,9 @@
 extends Area2D
 
-@export var speed := 600.0
-@export var direction := Vector2.RIGHT
 @export var damage := 1
+@export var direction := Vector2.RIGHT
+@export var speed := 600.0
+
 
 func _physics_process(delta: float) -> void:
 	position += direction.normalized() * speed * delta

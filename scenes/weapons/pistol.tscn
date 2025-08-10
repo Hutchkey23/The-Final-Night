@@ -140,8 +140,13 @@ libraries = {
 }
 
 [node name="FireRateTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="BulletSpawn" type="Node2D" parent="."]
 position = Vector2(5, -1)
 
 [connection signal="timeout" from="FireRateTimer" to="." method="_on_fire_rate_timer_timeout"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
