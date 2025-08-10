@@ -1,11 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://ck1e81g2eq3jr"]
+[gd_scene load_steps=11 format=3 uid="uid://ck1e81g2eq3jr"]
 
 [ext_resource type="Texture2D" uid="uid://3mwwy204b4kv" path="res://assets/sprites/player/Player_idle.png" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cgwdvl0qea4ju" path="res://assets/sprites/player/Player_run.png" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://culf1eggp2xiy" path="res://scenes/player/player.gd" id="1_gmlin"]
+[ext_resource type="PackedScene" uid="uid://dwrnwfr2f8nuq" path="res://scenes/weapons/pistol.tscn" id="4_lvxji"]
+[ext_resource type="Script" uid="uid://do86ghsyqpfyj" path="res://scenes/player/weapon_pivot.gd" id="4_p47bc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
 size = Vector2(12, 26)
+
+[sub_resource type="Animation" id="Animation_lvxji"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_gmlin"]
 resource_name = "idle"
@@ -47,21 +64,6 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("1_8afob")]
-}
-
-[sub_resource type="Animation" id="Animation_lvxji"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_p47bc"]
@@ -117,14 +119,25 @@ _data = {
 script = ExtResource("1_gmlin")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
 texture = ExtResource("1_dovo2")
 hframes = 8
 
 [node name="PlayerCollision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 3)
+position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_dovo2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_p47bc")
 }
+
+[node name="WeaponPivot" type="Node2D" parent="." node_paths=PackedStringArray("current_weapon")]
+position = Vector2(0, -10)
+script = ExtResource("4_p47bc")
+current_weapon = NodePath("Pistol")
+
+[node name="Pistol" parent="WeaponPivot" instance=ExtResource("4_lvxji")]
+position = Vector2(13, 0)
+
+[node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxjctvovj1b3c"]
+
+[ext_resource type="Script" uid="uid://yq1ckyr21mwg" path="res://scenes/weapons/small_bullet.gd" id="1_3p68t"]
+[ext_resource type="Texture2D" uid="uid://7wihhjl7jbs" path="res://assets/sprites/weapons/items & bullets sprites(16x16).png" id="1_g0rkc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3p68t"]
+radius = 5.09902
+
+[node name="SmallBullet" type="Area2D"]
+script = ExtResource("1_3p68t")
+
+[node name="SmallBulletSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_g0rkc")
+hframes = 5
+vframes = 7
+frame = 28
+
+[node name="SmallBulletCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3p68t")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
