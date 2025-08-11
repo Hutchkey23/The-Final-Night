@@ -16,14 +16,16 @@ func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
 	
 func _physics_process(delta: float) -> void:
+	if is_dying:
+		return
 	process_animation()
 	flip_sprites()
 	
 	var dir = (target.global_position - global_position).normalized()
 	velocity = dir * move_speed
 	
-	if !is_dying:
-		move_and_slide()
+
+	move_and_slide()
 
 func process_animation() -> void:
 	if is_dying:
@@ -59,6 +61,12 @@ func hit_flash() -> void:
 
 
 func death() -> void:
+	# Remove shader material as it affects death animation (sprite not fading if material is present)
+	zombie_sprite.material = null
+	
+	# Stop moving
 	velocity = Vector2.ZERO
+	
+	# Choose random death animation
 	var death_animation = death_animations.pick_random()
 	animation_player.play(death_animation)
