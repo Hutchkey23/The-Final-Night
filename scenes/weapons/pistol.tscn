@@ -119,7 +119,7 @@ _data = {
 &"shoot": SubResource("Animation_ivc8v")
 }
 
-[node name="Pistol" type="Node2D"]
+[node name="Pistol" type="Node2D" groups=["weapons"]]
 script = ExtResource("1_60a84")
 
 [node name="PistolSprite" type="Sprite2D" parent="."]

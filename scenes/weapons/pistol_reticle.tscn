@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://ddql5t82qwqso" path="res://scenes/weapons/pistol_reticle.gd" id="2_7fgsd"]
 
 [node name="PistolReticle" type="Sprite2D"]
+z_index = 5
 texture = ExtResource("1_iay8b")
 hframes = 6
 vframes = 2

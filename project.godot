@@ -24,6 +24,7 @@ window/stretch/mode="canvas_items"
 
 bullet_container=""
 player=""
+weapons=""
 
 [input]
 

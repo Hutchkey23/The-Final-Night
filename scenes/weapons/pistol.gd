@@ -1,21 +1,33 @@
 extends Node2D
 
+signal fired
+signal reload
+
 const BULLET_OFFSET = 1.2
 const SMALL_BULLET = preload("res://scenes/weapons/small_bullet.tscn")
 
+@export var weapon_name := "pistol"
+@export var damage := 1
+@export var fire_rate := 0.5
+@export var max_ammo := 12
+@export var reload_length := 2.5
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bullet_spawn: Node2D = $BulletSpawn
 @onready var fire_rate_timer: Timer = $FireRateTimer
 @onready var reload_timer: Timer = $ReloadTimer
 
-@export var fire_rate := 0.5
-@export var max_ammo := 12
-@export var reload_length := 2.5
 
 var can_shoot := true
 var current_ammo := 12
 var is_reloading := false
+var player_reference: Player
+
+func _ready() -> void:
+	player_reference = get_tree().get_first_node_in_group("player")
+	
+	# Emit signal to update ammo ui
+	emit_signal("fired", weapon_name, current_ammo)
 
 func shoot(target_position: Vector2):
 	# Ensure weapon can be fired (check fire rate, ammo)
@@ -31,6 +43,9 @@ func shoot(target_position: Vector2):
 	bullet_container.add_child(bullet)
 	bullet.global_position = bullet_spawn.global_position
 	
+	# Set damage of bullet
+	bullet.damage = damage
+	
 	# To find direction, subtract the two position vectors and then normalize
 	var dir = (target_position - bullet.global_position).normalized()
 	bullet.direction = dir
@@ -39,6 +54,7 @@ func shoot(target_position: Vector2):
 	
 	# Handle ammo
 	current_ammo -= 1
+	emit_signal("fired", weapon_name, current_ammo)
 	check_ammo()
 	
 	# Start fire rate timer that prevents bullets from firing repeatedly every frame
@@ -58,6 +74,12 @@ func check_ammo() -> void:
 
 
 func _on_reload_timer_timeout() -> void:
-	current_ammo = max_ammo
+	var reserve = player_reference.reserve_ammo[weapon_name]
+	var ammo_needed = max_ammo - current_ammo
+	var ammo_to_load = min(ammo_needed, reserve)
+	
+	current_ammo += ammo_to_load
+	emit_signal("reload", weapon_name, ammo_to_load)
+	
 	is_reloading = false
 	can_shoot = true

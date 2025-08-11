@@ -3,12 +3,13 @@ extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var zombie_sprite: Sprite2D = $Zombie1Sprite
 
+@export var health := 5
 @export var move_speed := 50.0
 
 const HIT_FLASH_LENGTH := 0.10
 
 var death_animations = ["death_1", "death_2"]
-var health := 5
+
 var is_dying = false
 var target: Player
 

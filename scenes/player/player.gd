@@ -1,14 +1,29 @@
 class_name Player
 extends CharacterBody2D
 
+signal ammo_changed(current_mag, reserve)
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player_sprite: Sprite2D = $PlayerSprite
 @onready var reticle_container: Node2D = $ReticleContainer
 @onready var weapon_slot: Node2D = $WeaponPivot
 
-
+# Weapons
+var reserve_ammo := {
+	"pistol": 90,
+	"rifle": 0,
+	"rocket_launcher": 0,
+	"shotgun": 0,
+}
 
 const MOVE_SPEED := 120.0
+
+func _ready() -> void:
+	for weapon in get_tree().get_nodes_in_group("weapons"):
+		weapon.connect("reload", on_weapon_reload)
+		weapon.connect("fired", on_weapon_fired)
+	# Debug, hide mouse. This will need to be adjusted in other menus/scripts.
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _physics_process(delta: float) -> void:
 	process_movement()
@@ -38,3 +53,11 @@ func flip_sprites() -> void:
 		player_sprite.flip_h = false
 	elif velocity.x > 0:
 		player_sprite.flip_h = true
+
+func on_weapon_reload(weapon_name: String, amount_used: int) -> void:
+	reserve_ammo[weapon_name] = max(reserve_ammo[weapon_name] - amount_used, 0)
+	emit_signal("ammo_changed", amount_used, reserve_ammo[weapon_name])
+
+func on_weapon_fired(weapon_name: String, current_ammo: int):
+	emit_signal("ammo_changed", current_ammo, reserve_ammo[weapon_name])
+	
