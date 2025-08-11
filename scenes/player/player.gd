@@ -2,7 +2,10 @@ extends CharacterBody2D
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player_sprite: Sprite2D = $PlayerSprite
+@onready var reticle_container: Node2D = $ReticleContainer
 @onready var weapon_slot: Node2D = $WeaponPivot
+
+
 
 const MOVE_SPEED := 120.0
 
@@ -20,12 +23,13 @@ func process_movement() -> void:
 func process_shooting() -> void:
 	var mouse_pos = get_global_mouse_position()
 	if Input.is_action_pressed("shoot") and weapon_slot.current_weapon:
-		weapon_slot.current_weapon.shoot(mouse_pos)
+		var reticle_location = reticle_container.get_child(0).global_position
+		weapon_slot.current_weapon.shoot(reticle_location)
 
 func animate_sprites() -> void:
 	if velocity == Vector2.ZERO:
 		animation_player.play("idle")
-	elif velocity > Vector2.ZERO:
+	elif velocity != Vector2.ZERO:
 		animation_player.play("run")
 
 func flip_sprites() -> void:

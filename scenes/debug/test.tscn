@@ -6,3 +6,5 @@
 
 [node name="Player" parent="." instance=ExtResource("1_1iy6y")]
 position = Vector2(151, 88)
+
+[node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]

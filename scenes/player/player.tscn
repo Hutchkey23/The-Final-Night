@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://ck1e81g2eq3jr"]
+[gd_scene load_steps=12 format=3 uid="uid://ck1e81g2eq3jr"]
 
 [ext_resource type="Texture2D" uid="uid://3mwwy204b4kv" path="res://assets/sprites/player/Player_idle.png" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cgwdvl0qea4ju" path="res://assets/sprites/player/Player_run.png" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://culf1eggp2xiy" path="res://scenes/player/player.gd" id="1_gmlin"]
 [ext_resource type="PackedScene" uid="uid://dwrnwfr2f8nuq" path="res://scenes/weapons/pistol.tscn" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://do86ghsyqpfyj" path="res://scenes/player/weapon_pivot.gd" id="4_p47bc"]
+[ext_resource type="PackedScene" uid="uid://c1p0j52y2nvl7" path="res://scenes/weapons/pistol_reticle.tscn" id="6_75vfm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
 size = Vector2(12, 26)
@@ -141,4 +142,6 @@ current_weapon = NodePath("Pistol")
 [node name="Pistol" parent="WeaponPivot" instance=ExtResource("4_lvxji")]
 position = Vector2(13, 0)
 
-[node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]
+[node name="ReticleContainer" type="Node2D" parent="."]
+
+[node name="PistolReticle" parent="ReticleContainer" instance=ExtResource("6_75vfm")]
