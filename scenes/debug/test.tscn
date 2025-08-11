@@ -1,10 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://chw2gqd6e2qp3"]
+[gd_scene load_steps=3 format=3 uid="uid://chw2gqd6e2qp3"]
 
 [ext_resource type="PackedScene" uid="uid://ck1e81g2eq3jr" path="res://scenes/player/player.tscn" id="1_1iy6y"]
+[ext_resource type="PackedScene" uid="uid://8im1kjd07vcd" path="res://scenes/enemies/zombie_1.tscn" id="2_d7gko"]
 
 [node name="TEST" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_1iy6y")]
+[node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]
+
+[node name="ActorsContainer" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Player" parent="ActorsContainer" instance=ExtResource("1_1iy6y")]
 position = Vector2(151, 88)
 
-[node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]
+[node name="Zombie1" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
+position = Vector2(296, 163)
+
+[node name="Zombie2" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
+position = Vector2(295, 243)
+
+[node name="Zombie3" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
+position = Vector2(358, 90)
+
+[node name="Zombie4" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
+position = Vector2(97, 198)

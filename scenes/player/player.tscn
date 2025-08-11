@@ -116,7 +116,7 @@ _data = {
 &"run": SubResource("Animation_p47bc")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 26
 script = ExtResource("1_gmlin")
 
