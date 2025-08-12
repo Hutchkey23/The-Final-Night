@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://ck1e81g2eq3jr"]
+[gd_scene load_steps=14 format=3 uid="uid://ck1e81g2eq3jr"]
 
 [ext_resource type="Texture2D" uid="uid://3mwwy204b4kv" path="res://assets/sprites/player/Player_idle.png" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://cgwdvl0qea4ju" path="res://assets/sprites/player/Player_run.png" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://culf1eggp2xiy" path="res://scenes/player/player.gd" id="1_gmlin"]
+[ext_resource type="PackedScene" uid="uid://dwrnwfr2f8nuq" path="res://scenes/weapons/pistol/pistol.tscn" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://do86ghsyqpfyj" path="res://scenes/player/weapon_pivot.gd" id="4_p47bc"]
 [ext_resource type="PackedScene" uid="uid://bu8o7sn2h0da3" path="res://scenes/weapons/rifle/rifle.tscn" id="5_0owmy"]
 [ext_resource type="PackedScene" uid="uid://c1p0j52y2nvl7" path="res://scenes/weapons/pistol/pistol_reticle.tscn" id="6_75vfm"]
@@ -140,16 +141,18 @@ libraries = {
 [node name="WeaponPivot" type="Node2D" parent="." node_paths=PackedStringArray("current_weapon")]
 position = Vector2(0, -10)
 script = ExtResource("4_p47bc")
-current_weapon = NodePath("Rifle")
+current_weapon = NodePath("Pistol")
+
+[node name="Pistol" parent="WeaponPivot" instance=ExtResource("4_lvxji")]
 
 [node name="Rifle" parent="WeaponPivot" instance=ExtResource("5_0owmy")]
 
 [node name="ReticleContainer" type="Node2D" parent="."]
 
 [node name="PistolReticle" parent="ReticleContainer" instance=ExtResource("6_75vfm")]
-visible = false
 
 [node name="RifleReticle" parent="ReticleContainer" instance=ExtResource("7_0owmy")]
+visible = false
 
 [node name="InvulnerableTimer" type="Timer" parent="."]
 one_shot = true

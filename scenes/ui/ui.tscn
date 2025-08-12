@@ -10,7 +10,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7vp6q"]
 atlas = ExtResource("2_pfayw")
-region = Rect2(32, 0, 32, 32)
+region = Rect2(0, 0, 32, 32)
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_u7n8c")

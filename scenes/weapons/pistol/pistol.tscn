@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dwrnwfr2f8nuq"]
 
-[ext_resource type="Script" uid="uid://dhrxgt0bgiiua" path="res://scenes/weapons/pistol/pistol.gd" id="1_60a84"]
+[ext_resource type="Script" uid="uid://dhrxgt0bgiiua" path="res://scenes/weapons/gun.gd" id="1_60a84"]
 [ext_resource type="Texture2D" uid="uid://bnaw87vj7k6vl" path="res://assets/sprites/weapons/Weapons sprites (32x32).png" id="1_r3071"]
 [ext_resource type="Texture2D" uid="uid://cuwtljug5bp1c" path="res://assets/sprites/weapons/pistol/Pistol_Shoot.png" id="2_60a84"]
 

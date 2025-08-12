@@ -7,33 +7,56 @@ const BULLET_OFFSET = 1.2
 const GUN_OFFSET = Vector2(6, 0)
 const SMALL_BULLET = preload("res://scenes/weapons/small_bullet.tscn")
 
-@export var weapon_name := "rifle"
-@export var damage := 1
-@export var fire_rate := 0.15
-@export var max_ammo := 30
-@export var reload_length := 3.5
+@export var weapon_name := "pistol"
+@export var damage := 2
+@export var fire_rate := 0.5
+@export var max_ammo := 12
+@export var reload_length := 2.5
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bullet_spawn: Node2D = $BulletSpawn
 @onready var fire_rate_timer: Timer = $FireRateTimer
 @onready var reload_timer: Timer = $ReloadTimer
 
-
+var active := false
 var can_shoot := true
-var current_ammo := 30
+var current_ammo := 12
 var is_reloading := false
 var player_reference: Player
 
 func _ready() -> void:
+	visible = false
 	position = GUN_OFFSET
+	
+	reload_timer.wait_time = reload_length
+	current_ammo = max_ammo
+	
 	player_reference = get_tree().get_first_node_in_group("player")
 	
 	# Emit signal to update ammo ui
 	emit_signal("fired", weapon_name, current_ammo)
 
+func become_active() -> void:
+	active = true
+	visible = true
+
+func become_inactive() -> void:
+	active = false
+	visible = false
+	if is_reloading:
+		reload_timer.stop()
+		is_reloading = false
+		can_shoot = true
+
 func shoot(target_position: Vector2):
+	if !active:
+		return
 	# Ensure weapon can be fired (check fire rate, ammo)
 	if not can_shoot or is_reloading:
+		return
+	
+	if current_ammo <= 0:
+		check_ammo()
 		return
 
 	can_shoot = false
@@ -76,6 +99,14 @@ func check_ammo() -> void:
 
 
 func _on_reload_timer_timeout() -> void:
+	reload_gun()
+
+func start_reload() -> void:
+	is_reloading = true
+	can_shoot = false
+	reload_timer.start(reload_length)
+
+func reload_gun() -> void:
 	var reserve = player_reference.reserve_ammo[weapon_name]
 	var ammo_needed = max_ammo - current_ammo
 	var ammo_to_load = min(ammo_needed, reserve)

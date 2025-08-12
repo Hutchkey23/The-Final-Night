@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bu8o7sn2h0da3"]
 
-[ext_resource type="Script" uid="uid://dtto0akv65je8" path="res://scenes/weapons/rifle/rifle.gd" id="1_hx47o"]
+[ext_resource type="Script" uid="uid://dhrxgt0bgiiua" path="res://scenes/weapons/gun.gd" id="1_hx47o"]
 [ext_resource type="Texture2D" uid="uid://bnaw87vj7k6vl" path="res://assets/sprites/weapons/Weapons sprites (32x32).png" id="1_upv3j"]
 [ext_resource type="Texture2D" uid="uid://dviybvaiujju7" path="res://assets/sprites/weapons/rifle/Rifle_Shoot.png" id="2_upv3j"]
 
@@ -121,6 +121,11 @@ _data = {
 
 [node name="Rifle" type="Node2D" groups=["weapons"]]
 script = ExtResource("1_hx47o")
+weapon_name = "rifle"
+damage = 1
+fire_rate = 0.15
+max_ammo = 30
+reload_length = 3.5
 
 [node name="RifleSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_upv3j")
