@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlpole2sxs4u6"]
+
+[ext_resource type="Texture2D" uid="uid://bnaw87vj7k6vl" path="res://assets/sprites/weapons/Weapons sprites (32x32).png" id="2_iiut0"]
+[ext_resource type="Script" uid="uid://ddql5t82qwqso" path="res://scenes/weapons/reticle.gd" id="2_jvpfi"]
+
+[node name="RifleReticle" type="Sprite2D"]
+z_index = 5
+texture = ExtResource("2_iiut0")
+hframes = 6
+vframes = 2
+frame = 11
+script = ExtResource("2_jvpfi")

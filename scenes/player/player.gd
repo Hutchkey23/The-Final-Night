@@ -19,7 +19,7 @@ var max_health := 5
 # Weapons
 var reserve_ammo := {
 	"pistol": 90,
-	"rifle": 0,
+	"rifle": 90,
 	"rocket_launcher": 0,
 	"shotgun": 0,
 }

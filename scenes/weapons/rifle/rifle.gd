@@ -4,13 +4,14 @@ signal fired
 signal reload
 
 const BULLET_OFFSET = 1.2
+const GUN_OFFSET = Vector2(6, 0)
 const SMALL_BULLET = preload("res://scenes/weapons/small_bullet.tscn")
 
-@export var weapon_name := "pistol"
+@export var weapon_name := "rifle"
 @export var damage := 1
-@export var fire_rate := 0.5
-@export var max_ammo := 12
-@export var reload_length := 2.5
+@export var fire_rate := 0.15
+@export var max_ammo := 30
+@export var reload_length := 3.5
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bullet_spawn: Node2D = $BulletSpawn
@@ -19,11 +20,12 @@ const SMALL_BULLET = preload("res://scenes/weapons/small_bullet.tscn")
 
 
 var can_shoot := true
-var current_ammo := 12
+var current_ammo := 30
 var is_reloading := false
 var player_reference: Player
 
 func _ready() -> void:
+	position = GUN_OFFSET
 	player_reference = get_tree().get_first_node_in_group("player")
 	
 	# Emit signal to update ammo ui

@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwrnwfr2f8nuq"]
+[gd_scene load_steps=8 format=3 uid="uid://bu8o7sn2h0da3"]
 
-[ext_resource type="Script" uid="uid://dhrxgt0bgiiua" path="res://scenes/weapons/pistol.gd" id="1_60a84"]
-[ext_resource type="Texture2D" uid="uid://bnaw87vj7k6vl" path="res://assets/sprites/weapons/Weapons sprites (32x32).png" id="1_r3071"]
-[ext_resource type="Texture2D" uid="uid://cuwtljug5bp1c" path="res://assets/sprites/weapons/pistol/Pistol_Shoot.png" id="2_60a84"]
+[ext_resource type="Script" uid="uid://dtto0akv65je8" path="res://scenes/weapons/rifle/rifle.gd" id="1_hx47o"]
+[ext_resource type="Texture2D" uid="uid://bnaw87vj7k6vl" path="res://assets/sprites/weapons/Weapons sprites (32x32).png" id="1_upv3j"]
+[ext_resource type="Texture2D" uid="uid://dviybvaiujju7" path="res://assets/sprites/weapons/rifle/Rifle_Shoot.png" id="2_upv3j"]
 
 [sub_resource type="Animation" id="Animation_t1ie7"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PistolShootSprite:frame")
+tracks/0/path = NodePath("RifleShootSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -21,7 +21,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("PistolSprite:visible")
+tracks/1/path = NodePath("RifleSprite:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -33,7 +33,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("PistolShootSprite:visible")
+tracks/2/path = NodePath("RifleShootSprite:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -49,7 +49,7 @@ step = 0.08
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PistolSprite:visible")
+tracks/0/path = NodePath("RifleSprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -61,7 +61,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("PistolShootSprite:visible")
+tracks/1/path = NodePath("RifleShootSprite:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -73,43 +73,43 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_ivc8v"]
 resource_name = "shoot"
-length = 0.4
-step = 0.08
+length = 0.08
+step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PistolShootSprite:visible")
+tracks/0/path = NodePath("RifleShootSprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.08),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [true, false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("PistolShootSprite:frame")
+tracks/1/path = NodePath("RifleShootSprite:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.02, 0.04, 0.06),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4]
+"values": [0, 1, 2, 3]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("PistolSprite:visible")
+tracks/2/path = NodePath("RifleSprite:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.08),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_red3f"]
@@ -119,19 +119,19 @@ _data = {
 &"shoot": SubResource("Animation_ivc8v")
 }
 
-[node name="Pistol" type="Node2D" groups=["weapons"]]
-script = ExtResource("1_60a84")
+[node name="Rifle" type="Node2D" groups=["weapons"]]
+script = ExtResource("1_hx47o")
 
-[node name="PistolSprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_r3071")
+[node name="RifleSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_upv3j")
 hframes = 6
 vframes = 2
-frame = 1
+frame = 7
 
-[node name="PistolShootSprite" type="Sprite2D" parent="."]
+[node name="RifleShootSprite" type="Sprite2D" parent="."]
 visible = false
-texture = ExtResource("2_60a84")
-hframes = 5
+texture = ExtResource("2_upv3j")
+hframes = 4
 frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

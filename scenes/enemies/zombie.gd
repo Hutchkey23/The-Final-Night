@@ -10,6 +10,9 @@ signal died
 @export var health := 5
 @export var move_speed := 50.0
 
+# Hit flash control
+var hit_flash_tween: Tween
+var hit_flash_timer: SceneTreeTimer
 const HIT_FLASH_LENGTH := 0.10
 
 var death_animations = ["death_1", "death_2"]
@@ -63,11 +66,21 @@ func take_damage(damage) -> void:
 		hit_flash()
 
 func hit_flash() -> void:
+	# Cancel any running tween/timer so we restart fresh
+	if hit_flash_tween and hit_flash_tween.is_running():
+		hit_flash_tween.kill()
+
 	var mat = zombie_sprite.material
 	mat.set("shader_parameter/solid_color", Color.WHITE)
-	await get_tree().create_timer(HIT_FLASH_LENGTH).timeout
-	var tween = get_tree().create_tween()
-	tween.tween_property(mat, "shader_parameter/solid_color", Color.TRANSPARENT, HIT_FLASH_LENGTH)
+
+	# Create a timer for the hold duration before fading
+	hit_flash_timer = get_tree().create_timer(HIT_FLASH_LENGTH)
+
+	await hit_flash_timer.timeout
+
+	# Now fade back to transparent
+	hit_flash_tween = get_tree().create_tween()
+	hit_flash_tween.tween_property(mat, "shader_parameter/solid_color", Color.TRANSPARENT, HIT_FLASH_LENGTH)
 
 
 func death() -> void:
