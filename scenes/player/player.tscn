@@ -147,3 +147,10 @@ position = Vector2(13, 0)
 [node name="ReticleContainer" type="Node2D" parent="."]
 
 [node name="PistolReticle" parent="ReticleContainer" instance=ExtResource("6_75vfm")]
+
+[node name="InvulnerableTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="timeout" from="InvulnerableTimer" to="." method="_on_invulnerable_timer_timeout"]

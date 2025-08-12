@@ -1,17 +1,22 @@
 extends Area2D
 
+const DESPAWN_RANGE := 450.0
+
 @export var damage := 1
 @export var direction := Vector2.RIGHT
 @export var speed := 600.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-
+var player: Player
 var hit_object := false
 
+func _ready() -> void:
+	player = get_tree().get_first_node_in_group("player")
 func _physics_process(delta: float) -> void:
-	if not get_viewport_rect().has_point(global_position):
+	# Despawn bullet if gets far enough away from player
+	if global_position.distance_to(player.global_position) > DESPAWN_RANGE:
 		queue_free()
-	
+
 	if hit_object:
 		return
 	

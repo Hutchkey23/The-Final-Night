@@ -310,15 +310,7 @@ position = Vector2(151, 88)
 
 [node name="Zombie1" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
 position = Vector2(296, 163)
-
-[node name="Zombie2" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
-position = Vector2(295, 243)
-
-[node name="Zombie3" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
-position = Vector2(358, 90)
-
-[node name="Zombie4" parent="ActorsContainer" instance=ExtResource("2_d7gko")]
-position = Vector2(97, 198)
+health = 5
 
 [node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]
 

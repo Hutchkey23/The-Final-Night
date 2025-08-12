@@ -1,8 +1,12 @@
 extends CharacterBody2D
 
+signal hit
+signal died
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var zombie_sprite: Sprite2D = $Zombie1Sprite
 
+@export var damage := 1
 @export var health := 5
 @export var move_speed := 50.0
 
@@ -10,6 +14,7 @@ const HIT_FLASH_LENGTH := 0.10
 
 var death_animations = ["death_1", "death_2"]
 
+var attacking_player = false
 var is_dying = false
 var target: Player
 
@@ -25,6 +30,8 @@ func _physics_process(delta: float) -> void:
 	var dir = (target.global_position - global_position).normalized()
 	velocity = dir * move_speed
 	
+	if attacking_player:
+		target.take_damage(damage)
 
 	move_and_slide()
 
@@ -47,7 +54,9 @@ func take_damage(damage) -> void:
 	if is_dying:
 		return
 	health -= damage
+	PointsManager.add_points(PointsManager.points_per_hit)
 	if health <= 0:
+		PointsManager.add_points(PointsManager.points_per_kill)
 		is_dying = true
 		death()
 	else:
@@ -71,3 +80,13 @@ func death() -> void:
 	# Choose random death animation
 	var death_animation = death_animations.pick_random()
 	animation_player.play(death_animation)
+
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		attacking_player = true
+
+
+func _on_hit_box_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		attacking_player = false

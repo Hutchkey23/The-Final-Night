@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://8im1kjd07vcd"]
+[gd_scene load_steps=16 format=3 uid="uid://8im1kjd07vcd"]
 
 [ext_resource type="Script" uid="uid://cgjgmepx6x7y6" path="res://scenes/enemies/zombie.gd" id="1_bc27i"]
 [ext_resource type="Texture2D" uid="uid://cjraw8ud66bxx" path="res://assets/sprites/enemies/Zombie1/Zombie_Idle.png" id="1_elo86"]
@@ -13,7 +13,7 @@ shader = ExtResource("2_0vb7m")
 shader_parameter/solid_color = Vector4(0, 0, 0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_elo86"]
-size = Vector2(14, 26)
+size = Vector2(12, 18)
 
 [sub_resource type="Animation" id="Animation_dx0xr"]
 length = 0.001
@@ -329,6 +329,10 @@ _data = {
 &"run": SubResource("Animation_elo86")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0vb7m"]
+radius = 8.0
+height = 26.0
+
 [node name="Zombie1" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 7
@@ -351,3 +355,12 @@ shape = SubResource("RectangleShape2D_elo86")
 libraries = {
 &"": SubResource("AnimationLibrary_0ysg2")
 }
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -13)
+shape = SubResource("CapsuleShape2D_0vb7m")
+
+[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="HitBox" to="." method="_on_hit_box_body_exited"]
