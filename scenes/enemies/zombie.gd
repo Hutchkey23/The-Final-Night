@@ -90,6 +90,9 @@ func death() -> void:
 	# Stop moving
 	velocity = Vector2.ZERO
 	
+	# Emit signal
+	emit_signal("died")
+	
 	# Choose random death animation
 	var death_animation = death_animations.pick_random()
 	animation_player.play(death_animation)

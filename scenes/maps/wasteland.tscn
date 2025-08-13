@@ -24,7 +24,7 @@ tile_set = ExtResource("1_vkb3t")
 [node name="Road" type="TileMapLayer" parent="TileMap"]
 tile_set = ExtResource("1_vkb3t")
 
-[node name="ActorsContainer" type="Node2D" parent="."]
+[node name="ActorsContainer" type="Node2D" parent="." groups=["actor_container"]]
 y_sort_enabled = true
 
 [node name="Objects" type="Node2D" parent="ActorsContainer"]

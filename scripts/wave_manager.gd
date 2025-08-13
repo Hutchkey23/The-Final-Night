@@ -9,7 +9,7 @@ extends Node
 
 # Avoid spawning close to player
 @export var min_spawn_distance := 400.0 
-@export var max_spawn_distance := 750.0
+@export var max_spawn_distance := 550.0
 
 
 var wave := 1
@@ -22,6 +22,7 @@ func _ready() -> void:
 	start_wave()
 	
 func start_wave() -> void:
+	print("START WAVE")
 	# More zombies in higher waves
 	var base_count = 5 + wave * 2
 	zombies_to_spawn = base_count
@@ -43,7 +44,7 @@ func spawn_zombies() -> void:
 	if spawn_point:
 		var zombie_scene = choose_zombie_type()
 		var zombie = zombie_scene.instantiate()
-		get_parent().add_child(zombie)
+		get_tree().get_first_node_in_group("actor_container").add_child(zombie)
 		zombie.global_position = spawn_point
 		zombie.connect("died", on_zombie_died)
 		
@@ -51,7 +52,7 @@ func spawn_zombies() -> void:
 	await get_tree().create_timer(spawn_delay).timeout
 	spawn_zombies()
 	
-func choose_zombie_type() -> Node2D:
+func choose_zombie_type() -> PackedScene:
 	if wave < 5:
 		return zombie_types["normal"]
 	else:
@@ -60,7 +61,8 @@ func choose_zombie_type() -> Node2D:
 func on_zombie_died() -> void:
 	zombies_remaining -= 1
 	if zombies_remaining <= 0:
-		print("WAVE OVER")
+		wave += 1
+		start_wave()
 	
 func get_random_offscreen_position() -> Vector2:
 	var viewport_rect = get_viewport().get_visible_rect()
@@ -79,7 +81,7 @@ func get_random_offscreen_position() -> Vector2:
 		# Pick random angle and distance from player
 		var angle = randf() * TAU
 		var distance = randf_range(min_spawn_distance, max_spawn_distance)
-		spawn_pos + Vector2.RIGHT.rotated(angle) * distance
+		spawn_pos = player_pos + Vector2.RIGHT.rotated(angle) * distance
 		
 		# Only accept position if it's NOT in the camera view
 		if not screen_rect.has_point(spawn_pos):
