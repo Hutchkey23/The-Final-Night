@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqd8icjg1oju1"]
+
+[ext_resource type="Texture2D" uid="uid://clgb8pwhf8y6i" path="res://assets/sprites/objects/ME_Singles_Vehicles_32x32_Gas_Station_Petrol_Pump_Props_1.png" id="1_4hfw7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2568y"]
+size = Vector2(30, 26.5)
+
+[node name="GasStation" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -77)
+texture = ExtResource("1_4hfw7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-94, -31.75)
+shape = SubResource("RectangleShape2D_2568y")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(94, -32)
+shape = SubResource("RectangleShape2D_2568y")

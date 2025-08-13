@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdcjich1i30h"]
+
+[ext_resource type="Texture2D" uid="uid://c6jx62154rmhq" path="res://assets/sprites/tiles/Wasteland_Tileset_32x32.png" id="1_kg3i5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1rnp"]
+size = Vector2(25, 20)
+
+[node name="TireStack" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -15)
+texture = ExtResource("1_kg3i5")
+region_enabled = true
+region_rect = Rect2(129.064, 288.016, 29.9543, 31.2129)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_p1rnp")

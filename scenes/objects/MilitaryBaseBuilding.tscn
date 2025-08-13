@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://77jac17rw7h0"]
+
+[ext_resource type="Texture2D" uid="uid://8d6gsv1eb16w" path="res://assets/sprites/buildings/23_MIlitary_Base_32x32_Dormitory_2.png" id="1_tuakh"]
+
+[node name="MilitaryBaseBuilding" type="StaticBody2D"]
+scale = Vector2(0.5, 0.5)
+collision_layer = 16
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -0.399994)
+texture = ExtResource("1_tuakh")
+region_rect = Rect2(204.254, 368.656, 39.5212, 47.3744)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, 187.6)
+polygon = PackedVector2Array(-82, -23.6, -82, -39, 109, -39, 108, -141.6, 24, -141.6, 24, -95.6, -144, -95.6, -144, -23.6, -148, -23.6, -148, -48, -176, -48, -176, -314, 173, -314, 173, -100, 115, -100, 115, -35, -78, -35, -78, -23.6)

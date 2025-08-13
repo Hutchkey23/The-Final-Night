@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgh8uhnhr4f57"]
+
+[ext_resource type="Texture2D" uid="uid://c6jx62154rmhq" path="res://assets/sprites/tiles/Wasteland_Tileset_32x32.png" id="1_vus3y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1rnp"]
+size = Vector2(44, 59)
+
+[node name="ShippingContainer" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -39)
+texture = ExtResource("1_vus3y")
+region_enabled = true
+region_rect = Rect2(200.275, 177.648, 47.4828, 78.7782)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -36.5)
+shape = SubResource("RectangleShape2D_p1rnp")
