@@ -36,7 +36,6 @@ func start_wave() -> void:
 	# More zombies in higher waves
 	var base_count = BASE_WAVE_AMOUNT + wave * 2
 	zombies_to_spawn = base_count
-	print(zombies_to_spawn)
 	zombies_remaining = base_count
 	
 	# Increase Zombie stats every 5 waves

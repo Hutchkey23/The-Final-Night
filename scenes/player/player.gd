@@ -8,6 +8,7 @@ signal weapon_changed(weapon_name)
 const INVULNERABILITY_LENGTH := 2.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var camera_2d: Camera2D = $Camera2D
 @onready var invulnerable_timer: Timer = $InvulnerableTimer
 @onready var player_sprite: Sprite2D = $PlayerSprite
 @onready var reticle_container: Node2D = $ReticleContainer
@@ -24,6 +25,7 @@ var reserve_ammo := {
 	"rifle": 90,
 	"rocket_launcher": 0,
 	"shotgun": 0,
+	"sniper_rifle": 30,
 }
 
 const MOVE_SPEED := 120.0
@@ -121,6 +123,12 @@ func _on_invulnerable_timer_timeout() -> void:
 	can_take_damage = true
 	modulate = Color(1, 1, 1, 1)
 
+func set_camera_boundaries(left_bound, right_bound, top_bound, bottom_bound) -> void:
+	camera_2d.limit_left = left_bound
+	camera_2d.limit_right = right_bound
+	camera_2d.limit_top = top_bound
+	camera_2d.limit_bottom = bottom_bound
+	
 
 func death() -> void:
 	print("GAME OVER!")

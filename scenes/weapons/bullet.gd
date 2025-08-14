@@ -4,6 +4,7 @@ const DESPAWN_RANGE := 450.0
 
 @export var damage := 1
 @export var direction := Vector2.RIGHT
+@export var bullet_health := 1
 @export var speed := 600.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -28,6 +29,11 @@ func _on_body_entered(body: Node2D) -> void:
 	
 	if body.has_method("take_damage"):
 		body.take_damage(damage)
+		bullet_health -= 1
+		if bullet_health <= 0:
+			hit_object = true
+			animation_player.play("bullet_hit")
+	else:
+		hit_object = true
+		animation_player.play("bullet_hit")
 	
-	hit_object = true
-	animation_player.play("bullet_hit")

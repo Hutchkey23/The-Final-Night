@@ -122,10 +122,11 @@ _data = {
 [node name="Rifle" type="Node2D" groups=["weapons"]]
 script = ExtResource("1_hx47o")
 weapon_name = "rifle"
+bullet_type = "SMALL_BULLET"
 damage = 1
 fire_rate = 0.15
 max_ammo = 30
-reload_length = 3.5
+reload_length = 2.25
 
 [node name="RifleSprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_upv3j")

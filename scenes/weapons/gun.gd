@@ -6,12 +6,14 @@ signal reload
 const BULLET_OFFSET = 1.2
 const GUN_OFFSET = Vector2(6, 0)
 const SMALL_BULLET = preload("res://scenes/weapons/small_bullet.tscn")
+const LARGE_BULLET = preload("res://scenes/weapons/large_bullet.tscn")
 
-@export var weapon_name := "pistol"
-@export var damage := 2
-@export var fire_rate := 0.5
-@export var max_ammo := 12
-@export var reload_length := 2.5
+@export var weapon_name := "sniper_rifle"
+@export_enum("SMALL_BULLET", "LARGE_BULLET") var bullet_type: String
+@export var damage := 5
+@export var fire_rate := 1.5
+@export var max_ammo := 5
+@export var reload_length := 3.2
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bullet_spawn: Node2D = $BulletSpawn
@@ -20,7 +22,7 @@ const SMALL_BULLET = preload("res://scenes/weapons/small_bullet.tscn")
 
 var active := false
 var can_shoot := true
-var current_ammo := 12
+var current_ammo := 5
 var is_reloading := false
 var player_reference: Player
 
@@ -63,7 +65,12 @@ func shoot(target_position: Vector2):
 	animation_player.play("shoot")
 	
 	# Spawn bullet
-	var bullet = SMALL_BULLET.instantiate()
+	var bullet
+	match bullet_type:
+		"SMALL_BULLET":
+			bullet = SMALL_BULLET.instantiate()
+		"LARGE_BULLET":
+			bullet = LARGE_BULLET.instantiate()
 	var bullet_container = get_tree().get_first_node_in_group("bullet_container")
 	bullet_container.add_child(bullet)
 	bullet.global_position = bullet_spawn.global_position

@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://culf1eggp2xiy" path="res://scenes/player/player.gd" id="1_qek5x"]
 [ext_resource type="PackedScene" uid="uid://dwrnwfr2f8nuq" path="res://scenes/weapons/pistol/pistol.tscn" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://do86ghsyqpfyj" path="res://scenes/player/weapon_pivot.gd" id="4_p47bc"]
-[ext_resource type="PackedScene" uid="uid://bu8o7sn2h0da3" path="res://scenes/weapons/rifle/rifle.tscn" id="5_0owmy"]
 [ext_resource type="PackedScene" uid="uid://c1p0j52y2nvl7" path="res://scenes/weapons/pistol/pistol_reticle.tscn" id="6_75vfm"]
+[ext_resource type="PackedScene" uid="uid://dicv7j3hh3ofx" path="res://scenes/weapons/sniper_rifle/sniper_rifle.tscn" id="6_qek5x"]
 [ext_resource type="PackedScene" uid="uid://dlpole2sxs4u6" path="res://scenes/weapons/rifle/rifle_reticle.tscn" id="7_0owmy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
@@ -119,9 +119,9 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-collision_mask = 26
+collision_mask = 58
 platform_floor_layers = 4294967040
-platform_wall_layers = 16
+platform_wall_layers = 48
 script = ExtResource("1_qek5x")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
@@ -145,7 +145,8 @@ current_weapon = NodePath("Pistol")
 
 [node name="Pistol" parent="WeaponPivot" instance=ExtResource("4_lvxji")]
 
-[node name="Rifle" parent="WeaponPivot" instance=ExtResource("5_0owmy")]
+[node name="SniperRifle" parent="WeaponPivot" instance=ExtResource("6_qek5x")]
+weapon_name = "sniper_rifle"
 
 [node name="ReticleContainer" type="Node2D" parent="."]
 
@@ -159,6 +160,7 @@ one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.25, 1.25)
+limit_smoothed = true
 position_smoothing_enabled = true
 
 [connection signal="timeout" from="InvulnerableTimer" to="." method="_on_invulnerable_timer_timeout"]
