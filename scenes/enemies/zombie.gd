@@ -4,6 +4,8 @@ signal hit
 signal died
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent
+@onready var zombie_collision: CollisionShape2D = $Zombie1Collision
 @onready var zombie_sprite: Sprite2D = $Zombie1Sprite
 
 @export var damage := 1
@@ -15,6 +17,17 @@ var hit_flash_tween: Tween
 var hit_flash_timer: SceneTreeTimer
 const HIT_FLASH_LENGTH := 0.10
 
+# Navigation controls
+var update_interval := 0.3
+var time_since_update := 0.0
+var stuck_check_interval := 1.0
+var last_position := Vector2.ZERO
+var offset := Vector2.ZERO
+var stuck_timer := 0.0
+var stuck_threshold := 5.0
+@onready var collision_disable_timer: Timer = $CollisionDisableTimer
+const COLLISION_DISABLE_TIME := 0.15
+
 var death_animations = ["death_1", "death_2"]
 
 var attacking_player = false
@@ -23,6 +36,8 @@ var target: Player
 
 func _ready() -> void:
 	target = get_tree().get_first_node_in_group("player")
+	offset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
+	last_position = global_position
 	
 func _physics_process(delta: float) -> void:
 	if is_dying:
@@ -30,11 +45,28 @@ func _physics_process(delta: float) -> void:
 	process_animation()
 	flip_sprites()
 	
-	var dir = (target.global_position - global_position).normalized()
+	# Update navigation target at intervals
+	time_since_update += delta
+	if time_since_update >= update_interval:
+		time_since_update = 0.0
+		if target:
+			navigation_agent.target_position = target.global_position + offset
+	
+	var next_point = navigation_agent.get_next_path_position()
+	var dir = (next_point - global_position).normalized()
 	velocity = dir * move_speed
 	
 	if attacking_player:
 		target.take_damage(damage)
+
+	# Stuck check
+	stuck_timer += delta
+	if stuck_timer >= stuck_check_interval:
+		stuck_timer = 0.0
+		if global_position.distance_to(last_position) < stuck_threshold:
+			zombie_collision.disabled = true
+			collision_disable_timer.start(COLLISION_DISABLE_TIME)
+		last_position = global_position
 
 	move_and_slide()
 
@@ -106,3 +138,9 @@ func _on_hit_box_body_entered(body: Node2D) -> void:
 func _on_hit_box_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		attacking_player = false
+
+
+func _on_collision_disable_timer_timeout() -> void:
+	if is_dying:
+		return
+	zombie_collision.disabled = false

@@ -1,5 +1,10 @@
 extends Node2D
 
+signal wave_changed(wave_number)
+signal wave_ended(wave_number)
+
+const BASE_WAVE_AMOUNT := 5
+
 @export var zombie_types := {
 	"normal": preload("res://scenes/enemies/zombie_1.tscn")
 }
@@ -13,8 +18,8 @@ extends Node2D
 
 var map_bounds: Rect2
 
-
 var wave := 1
+var wave_running = false
 var zombies_remaining := 0
 var zombies_to_spawn := 0
 var player
@@ -24,10 +29,14 @@ func _ready() -> void:
 	start_wave()
 	
 func start_wave() -> void:
-	print("START WAVE")
+	if wave_running:
+		return
+	emit_signal("wave_changed", wave)
+	wave_running = true
 	# More zombies in higher waves
-	var base_count = 5 + wave * 2
+	var base_count = BASE_WAVE_AMOUNT + wave * 2
 	zombies_to_spawn = base_count
+	print(zombies_to_spawn)
 	zombies_remaining = base_count
 	
 	# Increase Zombie stats every 5 waves
@@ -63,9 +72,19 @@ func choose_zombie_type() -> PackedScene:
 func on_zombie_died() -> void:
 	zombies_remaining -= 1
 	if zombies_remaining <= 0:
-		wave += 1
-		start_wave()
-	
+		end_wave()
+
+func end_wave() -> void:
+	if !wave_running:
+		return
+	wave_running = false
+	print("WAVE OVER")
+	emit_signal("wave_ended", wave)
+	await get_tree().create_timer(1.5).timeout
+	print("WAVE BEGINS")
+	wave += 1
+	start_wave()
+
 func get_random_offscreen_position() -> Vector2:
 	var viewport_rect = get_viewport().get_visible_rect()
 	var player_pos = player.global_position
