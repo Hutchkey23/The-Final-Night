@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://bxdemf5ocifof" path="res://scripts/wave_manager.gd" id="1_rycvs"]
 
-[node name="WaveManager" type="Node"]
+[node name="WaveManager" type="Node2D"]
 script = ExtResource("1_rycvs")

@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 @export var zombie_types := {
 	"normal": preload("res://scenes/enemies/zombie_1.tscn")
@@ -10,6 +10,8 @@ extends Node
 # Avoid spawning close to player
 @export var min_spawn_distance := 400.0 
 @export var max_spawn_distance := 550.0
+
+var map_bounds: Rect2
 
 
 var wave := 1
@@ -76,15 +78,37 @@ func get_random_offscreen_position() -> Vector2:
 	)
 	
 	var spawn_pos: Vector2
+	var max_attempts := 50  # Prevent infinite loops
 	
-	while true:
+	for i in range(max_attempts):
 		# Pick random angle and distance from player
 		var angle = randf() * TAU
 		var distance = randf_range(min_spawn_distance, max_spawn_distance)
 		spawn_pos = player_pos + Vector2.RIGHT.rotated(angle) * distance
 		
-		# Only accept position if it's NOT in the camera view
-		if not screen_rect.has_point(spawn_pos):
-			break
-			
-	return spawn_pos
+		# Ensure point is not visible to camera
+		if screen_rect.has_point(spawn_pos):
+			continue
+		
+		# Ensure point is inside map bounds (assuming map is a rectangle)
+		if not map_bounds.has_point(spawn_pos):
+			continue
+		
+		# Ensure point is not inside an obstacle
+		if is_point_in_obstacle(spawn_pos):
+			continue
+		
+		return spawn_pos  # Valid spawn position found
+	
+	# If we can't find a position after max_attempts, just spawn at far edge
+	return player_pos + Vector2.RIGHT.rotated(randf() * TAU) * max_spawn_distance
+
+func is_point_in_obstacle(pos: Vector2) -> bool:
+	var space_state = get_world_2d().direct_space_state
+	var parameters = PhysicsPointQueryParameters2D.new()
+	parameters.collide_with_areas = false
+	parameters.collide_with_bodies = true
+	parameters.position = pos
+	var result = space_state.intersect_point(parameters)
+	return result.size() > 0
+	
