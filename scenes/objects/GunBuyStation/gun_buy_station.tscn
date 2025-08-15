@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://coq4lhu82m67"]
+
+[ext_resource type="Script" uid="uid://blglwupmx4w33" path="res://scenes/objects/GunBuyStation/gun_buy_station.gd" id="1_jotke"]
+[ext_resource type="Texture2D" uid="uid://c6jx62154rmhq" path="res://assets/sprites/tiles/Wasteland_Tileset_32x32.png" id="1_ytsgk"]
+[ext_resource type="Texture2D" uid="uid://bnaw87vj7k6vl" path="res://assets/sprites/weapons/Weapons sprites (32x32).png" id="2_y7jo5"]
+[ext_resource type="FontFile" uid="uid://7pvemrt714ge" path="res://assets/fonts/Kenney Pixel.ttf" id="4_jun0s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jotke"]
+radius = 30.0167
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7jo5"]
+size = Vector2(32, 23)
+
+[node name="GunBuyStation" type="Area2D" groups=["gun_buy_stations"]]
+collision_layer = 64
+script = ExtResource("1_jotke")
+weapon = "pistol"
+weapon_cost = 100
+ammo_cost = 50
+
+[node name="InteractionArea" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jotke")
+
+[node name="Table" type="StaticBody2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="TableSprite" type="Sprite2D" parent="Table"]
+texture = ExtResource("1_ytsgk")
+region_enabled = true
+region_rect = Rect2(257.011, 1.85072, 30.9893, 30.1413)
+
+[node name="TableCollision" type="CollisionShape2D" parent="Table"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_y7jo5")
+
+[node name="GunSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+texture = ExtResource("2_y7jo5")
+hframes = 6
+vframes = 2
+frame = 1
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -152.0
+offset_top = -71.0
+offset_right = 152.0
+offset_bottom = -32.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("4_jun0s")
+theme_override_font_sizes/font_size = 24
+text = "Buy Pistol - 1500 Points
+Press \"E\""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]

@@ -19,6 +19,7 @@ var gun_icon_dict = {
 func _ready() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	player.connect("ammo_changed", update_ammo)
+	player.connect("game_over", on_game_over)
 	player.connect("health_changed", update_health)
 	player.connect("weapon_changed", update_weapon)
 	WaveManager.connect("wave_changed", update_wave)
@@ -41,3 +42,6 @@ func update_weapon(weapon_name) -> void:
 
 func update_wave(wave_number) -> void:
 	wave_label.text = "Wave: " + str(wave_number)
+
+func on_game_over() -> void:
+	visible = false

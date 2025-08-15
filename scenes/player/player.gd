@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 signal ammo_changed(current_mag, reserve)
+signal game_over
 signal health_changed(health, max_health)
 signal weapon_changed(weapon_name)
 
@@ -9,7 +10,9 @@ const INVULNERABILITY_LENGTH := 2.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var camera_2d: Camera2D = $Camera2D
+@onready var game_over_screen: ColorRect = $GameOverScreen
 @onready var invulnerable_timer: Timer = $InvulnerableTimer
+@onready var player_collision: CollisionShape2D = $PlayerCollision
 @onready var player_sprite: Sprite2D = $PlayerSprite
 @onready var reticle_container: Node2D = $ReticleContainer
 @onready var weapon_slot: Node2D = $WeaponPivot
@@ -20,6 +23,18 @@ var health := 5
 var max_health := 5
 
 # Weapons
+var weapons = {
+	"pistol": preload("res://scenes/weapons/pistol/pistol.tscn"),
+	"rifle": preload("res://scenes/weapons/rifle/rifle.tscn"),
+	"sniper_rifle": preload("res://scenes/weapons/sniper_rifle/sniper_rifle.tscn")
+}
+
+var weapon_reticles = {
+	"pistol": preload("res://scenes/weapons/pistol/pistol_reticle.tscn"),
+	"rifle": preload("res://scenes/weapons/rifle/rifle_reticle.tscn"),
+	"sniper_rifle": preload("res://scenes/weapons/rifle/rifle_reticle.tscn")
+}
+
 var reserve_ammo := {
 	"pistol": 90,
 	"rifle": 90,
@@ -31,14 +46,11 @@ var reserve_ammo := {
 const MOVE_SPEED := 120.0
 
 func _ready() -> void:
-	for weapon in weapon_slot.get_children():
-		current_weapons.append(weapon)
-
-	weapon_slot.current_weapon.become_active()
+	update_weapons()
 	
-	for weapon in get_tree().get_nodes_in_group("weapons"):
-		weapon.connect("reload", on_weapon_reload)
-		weapon.connect("fired", on_weapon_fired)
+	for gun_buy_station in get_tree().get_nodes_in_group("gun_buy_stations"):
+		gun_buy_station.connect("buy_weapon", on_buy_station_buy_weapon)
+		gun_buy_station.connect("buy_ammo", on_buy_station_buy_ammo)
 	# Debug, hide mouse. This will need to be adjusted in other menus/scripts.
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
@@ -108,9 +120,11 @@ func take_damage(damage) -> void:
 		return
 	health = max(health - damage, 0)
 	emit_signal("health_changed", health, max_health)
-	if health <= 0:
+	if health > 0:
+		enter_invulnerable_state()
+	else:
 		death()
-	enter_invulnerable_state()
+	
 
 
 func enter_invulnerable_state():
@@ -129,6 +143,58 @@ func set_camera_boundaries(left_bound, right_bound, top_bound, bottom_bound) -> 
 	camera_2d.limit_top = top_bound
 	camera_2d.limit_bottom = bottom_bound
 	
+func has_weapon(weapon_name: String) -> bool:
+	var current_weapon_names = []
+	for weapon in current_weapons:
+		current_weapon_names.append(weapon.weapon_name)
+	return weapon_name in current_weapon_names
+
+func on_buy_station_buy_weapon(weapon_type: String):
+	if weapon_slot.get_child_count() < 2:
+		# If player has one weapon, make new one active
+		weapon_slot.current_weapon.become_inactive()
+		weapon_slot.current_weapon = null
+
+	else:
+		# If player has two weapons, replace current weapon with new weapon
+		weapon_slot.current_weapon.queue_free()
+	
+	var purchased_weapon = weapons[weapon_type].instantiate()
+	weapon_slot.add_child(purchased_weapon)
+	weapon_slot.current_weapon = purchased_weapon
+	emit_signal("weapon_changed", weapon_type)
+	update_weapons()
+
+func on_buy_station_buy_ammo(weapon_type: String):
+	reserve_ammo[weapon_type] = WeaponStats.weapon_stats[weapon_type]["base_max_ammo"]
+	emit_signal("ammo_changed", weapon_slot.current_weapon.current_ammo, reserve_ammo[weapon_type])
+
+func update_weapons() -> void:
+	current_weapons.clear()
+	for weapon in weapon_slot.get_children():
+		current_weapons.append(weapon)
+	
+	weapon_slot.current_weapon.become_active()
+	
+	for weapon in get_tree().get_nodes_in_group("weapons"):
+		weapon.connect("reload", on_weapon_reload)
+		weapon.connect("fired", on_weapon_fired)
 
 func death() -> void:
-	print("GAME OVER!")
+	set_process(false)
+	set_physics_process(false)
+	emit_signal("game_over")
+	
+	modulate = Color(1, 1, 1, 1)
+	player_collision.disabled = true
+	
+	game_over_sequence()
+	
+func game_over_sequence() -> void:
+	player_sprite.z_index = 99
+	game_over_screen.z_index = 98
+	game_over_screen.visible = true
+	weapon_slot.visible = true
+	animation_player.stop()
+	await get_tree().create_timer(0.5).timeout
+	animation_player.play("death")

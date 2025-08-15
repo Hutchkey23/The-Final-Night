@@ -8,6 +8,7 @@ signal died
 @onready var zombie_collision: CollisionShape2D = $Zombie1Collision
 @onready var zombie_sprite: Sprite2D = $Zombie1Sprite
 
+@export_enum("normal") var zombie_type: String = "normal"
 @export var damage := 1
 @export var health := 5
 @export var move_speed := 50.0
@@ -35,6 +36,10 @@ var is_dying = false
 var target: Player
 
 func _ready() -> void:
+	match zombie_type:
+		"normal":
+			health = ZombieStats.normal_zombie_health
+			move_speed = ZombieStats.normal_zombie_speed
 	target = get_tree().get_first_node_in_group("player")
 	offset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
 	last_position = global_position

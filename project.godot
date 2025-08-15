@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 
 PointsManager="*res://scripts/points_manager.gd"
 WaveManager="*res://scripts/wave_manager.gd"
+ZombieStats="*res://zombie_stats.gd"
+WeaponStats="*res://weapon_stats.gd"
 
 [display]
 
@@ -32,6 +34,7 @@ player=""
 weapons=""
 actor_container=""
 navigation_region=""
+gun_buy_stations=""
 
 [input]
 
@@ -70,6 +73,11 @@ swap={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":113,"location":0,"echo":false,"script":null)
 ]
 }
+interact={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -79,6 +87,7 @@ swap={
 2d_physics/layer_4="EnemyBullet"
 2d_physics/layer_5="World"
 2d_physics/layer_6="WorldBoundaries"
+2d_physics/layer_7="Interactables"
 
 [rendering]
 

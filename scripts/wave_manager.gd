@@ -39,9 +39,9 @@ func start_wave() -> void:
 	zombies_remaining = base_count
 	
 	# Increase Zombie stats every 5 waves
-	#ZombieStats.health = 100 + (wave - 1) * 10
-	#if wave % 5 == 0:
-		#ZombieStats.speed += 20
+	ZombieStats.normal_zombie_health += (wave - 1)
+	if wave % 5 == 0:
+		ZombieStats.normal_zombie_speed += 10.0
 		
 	# Start spawn loop
 	spawn_zombies()
@@ -63,7 +63,7 @@ func spawn_zombies() -> void:
 	spawn_zombies()
 	
 func choose_zombie_type() -> PackedScene:
-	if wave < 5:
+	if wave < 20:
 		return zombie_types["normal"]
 	else:
 		return
@@ -77,10 +77,8 @@ func end_wave() -> void:
 	if !wave_running:
 		return
 	wave_running = false
-	print("WAVE OVER")
 	emit_signal("wave_ended", wave)
 	await get_tree().create_timer(1.5).timeout
-	print("WAVE BEGINS")
 	wave += 1
 	start_wave()
 

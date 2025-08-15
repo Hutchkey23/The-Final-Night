@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://dvyah2r73sbys"]
+[gd_scene load_steps=17 format=4 uid="uid://dvyah2r73sbys"]
 
 [ext_resource type="Script" uid="uid://b48utid7ls3pw" path="res://scenes/maps/graveyard.gd" id="1_5hgo8"]
 [ext_resource type="TileSet" uid="uid://cbkex5kcst1ov" path="res://tilesets/graveyard.tres" id="1_e3avu"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dtcqh6hipqwn0" path="res://scenes/objects/graveyard/tree3.tscn" id="6_hdtjf"]
 [ext_resource type="PackedScene" uid="uid://c73xw5lk3layp" path="res://scenes/objects/graveyard/tree4.tscn" id="7_5hgo8"]
 [ext_resource type="PackedScene" uid="uid://ck1e81g2eq3jr" path="res://scenes/player/player.tscn" id="10_5ws36"]
+[ext_resource type="PackedScene" uid="uid://coq4lhu82m67" path="res://scenes/objects/GunBuyStation/gun_buy_station.tscn" id="10_23pi0"]
 [ext_resource type="PackedScene" uid="uid://tbbke4qeimjo" path="res://scenes/ui/ui.tscn" id="11_1twvf"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5hgo8"]
@@ -234,6 +235,12 @@ position = Vector2(1056, 103)
 
 [node name="Player" parent="YSort/ActorsContainer" instance=ExtResource("10_5ws36")]
 position = Vector2(285, 214)
+
+[node name="GunBuyStations" type="Node2D" parent="YSort/ActorsContainer"]
+y_sort_enabled = true
+
+[node name="GunBuyStation" parent="YSort/ActorsContainer/GunBuyStations" instance=ExtResource("10_23pi0")]
+position = Vector2(357, 164)
 
 [node name="BulletContainer" type="Node2D" parent="YSort" groups=["bullet_container"]]
 y_sort_enabled = true
