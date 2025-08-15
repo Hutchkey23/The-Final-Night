@@ -174,7 +174,8 @@ func on_buy_station_buy_weapon(weapon_type: String):
 
 func on_buy_station_buy_ammo(weapon_type: String):
 	reserve_ammo[weapon_type] = WeaponStats.weapon_stats[weapon_type]["base_max_ammo"]
-	emit_signal("ammo_changed", weapon_slot.current_weapon.current_ammo, reserve_ammo[weapon_type])
+	if weapon_slot.current_weapon.weapon_name == weapon_type:
+		emit_signal("ammo_changed", weapon_slot.current_weapon.current_ammo, reserve_ammo[weapon_type])
 
 func update_weapons() -> void:
 	current_weapons.clear()
@@ -191,13 +192,11 @@ func update_weapons() -> void:
 	
 
 func clean_current_weapons() -> void:
-	print(current_weapons)
 	var clean_array = []
 	for item in current_weapons:
 		if is_instance_valid(item):
 			clean_array.append(item)
 	current_weapons = clean_array
-	print(current_weapons)
 
 func death() -> void:
 	set_process(false)

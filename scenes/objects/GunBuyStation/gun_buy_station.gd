@@ -6,6 +6,14 @@ signal buy_ammo(weapon: String)
 const COOLDOWN_TIME := 1.5
 
 @export_enum("pistol", "rifle", "shotgun", "sniper_rifle", "rocket_launcher") var weapon: String
+var weapon_frames := {
+	"sniper_rifle": 0,
+	"pistol": 1,
+	"revolver": 2,
+	"shotgun": 3,
+	"rifle": 7,
+	"rocket_launcher": 8,
+}
 @export var weapon_cost := 1500
 @export var ammo_cost := 1000
 
@@ -14,10 +22,13 @@ const COOLDOWN_TIME := 1.5
 @onready var label: Label = $Label
 
 var cooldown = false
+var weapon_display_name := ""
 var player_in_range = false
 var player_reference: Player
 
 func _ready():
+	weapon_display_name = format_weapon_name(weapon)
+	gun_sprite.frame = weapon_frames[weapon]
 	label.visible = false
 
 func _process(delta: float) -> void:
@@ -33,6 +44,7 @@ func _process(delta: float) -> void:
 				emit_signal("buy_ammo", weapon)
 				cooldown = true
 				cooldown_timer.start(COOLDOWN_TIME)
+				update_label()
 		else:
 			# Buy Gun
 			if PointsManager.points >= weapon_cost:
@@ -40,6 +52,7 @@ func _process(delta: float) -> void:
 				emit_signal("buy_weapon", weapon)
 				cooldown = true
 				cooldown_timer.start(COOLDOWN_TIME)
+				update_label()
 
 
 func _on_body_entered(body: Node2D) -> void:
@@ -62,7 +75,7 @@ func update_label():
 	if player_reference and player_reference.has_weapon(weapon):
 		label.text = "Buy ammo - " + str(ammo_cost) + " Points"
 	else:
-		label.text = "Buy " + weapon + " - " + str(weapon_cost) + " Points"
+		label.text = "Buy " + weapon_display_name + " - " + str(weapon_cost) + " Points"
 		
 func highlight(state: bool):
 	if state:
@@ -70,6 +83,9 @@ func highlight(state: bool):
 	else:
 		gun_sprite.modulate = Color(1, 1, 1)
 
+func format_weapon_name(name: String) -> String:
+	var with_spaces = name.replace("_", " ")
+	return with_spaces.capitalize()
 
 func _on_cooldown_timer_timeout() -> void:
 	cooldown = false

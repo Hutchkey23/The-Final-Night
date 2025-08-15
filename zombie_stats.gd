@@ -1,8 +1,10 @@
 extends Node
 
+const MAX_ZOMBIE_SPEED := 150.0
+
 # Regular Zombie
 var normal_zombie_health := 2
-var normal_zombie_speed := 50.0
+var normal_zombie_speed := 70.0
 
 
 func reset_zombie_stats() -> void:

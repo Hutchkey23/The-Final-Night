@@ -27,7 +27,7 @@ var offset := Vector2.ZERO
 var stuck_timer := 0.0
 var stuck_threshold := 5.0
 @onready var collision_disable_timer: Timer = $CollisionDisableTimer
-const COLLISION_DISABLE_TIME := 0.15
+const COLLISION_DISABLE_TIME := 0.50
 
 var death_animations = ["death_1", "death_2"]
 

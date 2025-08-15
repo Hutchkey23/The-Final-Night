@@ -9,7 +9,7 @@
 radius = 30.0167
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y7jo5"]
-size = Vector2(32, 23)
+size = Vector2(26, 23)
 
 [node name="GunBuyStation" type="Area2D" groups=["gun_buy_stations"]]
 collision_layer = 64

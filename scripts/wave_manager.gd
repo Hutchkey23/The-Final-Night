@@ -38,10 +38,11 @@ func start_wave() -> void:
 	zombies_to_spawn = base_count
 	zombies_remaining = base_count
 	
-	# Increase Zombie stats every 5 waves
-	ZombieStats.normal_zombie_health += (wave - 1)
+	# Increase Zombie stats every X waves
+	if wave % 3 == 0:
+		ZombieStats.normal_zombie_health += (wave - 1)
 	if wave % 5 == 0:
-		ZombieStats.normal_zombie_speed += 10.0
+		ZombieStats.normal_zombie_speed = min(ZombieStats.normal_zombie_speed + 20.0, ZombieStats.MAX_ZOMBIE_SPEED)
 		
 	# Start spawn loop
 	spawn_zombies()
