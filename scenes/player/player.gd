@@ -61,6 +61,7 @@ func _physics_process(_delta: float) -> void:
 	process_weapon_swap()
 	animate_sprites()
 	flip_sprites()
+	clean_current_weapons()
 	move_and_slide()
 
 func process_movement() -> void:
@@ -150,19 +151,25 @@ func has_weapon(weapon_name: String) -> bool:
 	return weapon_name in current_weapon_names
 
 func on_buy_station_buy_weapon(weapon_type: String):
-	if weapon_slot.get_child_count() < 2:
-		# If player has one weapon, make new one active
-		weapon_slot.current_weapon.become_inactive()
-		weapon_slot.current_weapon = null
-
-	else:
-		# If player has two weapons, replace current weapon with new weapon
-		weapon_slot.current_weapon.queue_free()
+	var old_weapon = weapon_slot.current_weapon
 	
+	# If player has two weapons, replace current one
+	if current_weapons.size() >= 2:
+		if is_instance_valid(old_weapon):
+			old_weapon.queue_free()
+			current_weapons.erase(old_weapon)
+			
+	# Create new weapon
 	var purchased_weapon = weapons[weapon_type].instantiate()
 	weapon_slot.add_child(purchased_weapon)
 	weapon_slot.current_weapon = purchased_weapon
+	current_weapons.append(purchased_weapon)
+	
+	purchased_weapon.become_active()
+
 	emit_signal("weapon_changed", weapon_type)
+	emit_signal("ammo_changed", purchased_weapon.current_ammo, reserve_ammo[weapon_type])
+	
 	update_weapons()
 
 func on_buy_station_buy_ammo(weapon_type: String):
@@ -179,6 +186,18 @@ func update_weapons() -> void:
 	for weapon in get_tree().get_nodes_in_group("weapons"):
 		weapon.connect("reload", on_weapon_reload)
 		weapon.connect("fired", on_weapon_fired)
+	
+	clean_current_weapons()
+	
+
+func clean_current_weapons() -> void:
+	print(current_weapons)
+	var clean_array = []
+	for item in current_weapons:
+		if is_instance_valid(item):
+			clean_array.append(item)
+	current_weapons = clean_array
+	print(current_weapons)
 
 func death() -> void:
 	set_process(false)

@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://cgwdvl0qea4ju" path="res://assets/sprites/player/Player_run.png" id="1_dovo2"]
 [ext_resource type="Script" uid="uid://culf1eggp2xiy" path="res://scenes/player/player.gd" id="1_qek5x"]
 [ext_resource type="Texture2D" uid="uid://bwgtqemghixux" path="res://assets/sprites/player/Player_Death .png" id="2_5gtgg"]
-[ext_resource type="PackedScene" uid="uid://dwrnwfr2f8nuq" path="res://scenes/weapons/pistol/pistol.tscn" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://do86ghsyqpfyj" path="res://scenes/player/weapon_pivot.gd" id="4_p47bc"]
 [ext_resource type="PackedScene" uid="uid://c1p0j52y2nvl7" path="res://scenes/weapons/pistol/pistol_reticle.tscn" id="6_75vfm"]
 [ext_resource type="PackedScene" uid="uid://dicv7j3hh3ofx" path="res://scenes/weapons/sniper_rifle/sniper_rifle.tscn" id="6_qek5x"]
 [ext_resource type="PackedScene" uid="uid://dlpole2sxs4u6" path="res://scenes/weapons/rifle/rifle_reticle.tscn" id="7_0owmy"]
+[ext_resource type="PackedScene" uid="uid://bu8o7sn2h0da3" path="res://scenes/weapons/rifle/rifle.tscn" id="7_5gtgg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
 size = Vector2(12, 26)
@@ -196,18 +196,18 @@ libraries = {
 [node name="WeaponPivot" type="Node2D" parent="." node_paths=PackedStringArray("current_weapon")]
 position = Vector2(0, -10)
 script = ExtResource("4_p47bc")
-current_weapon = NodePath("Pistol")
-
-[node name="Pistol" parent="WeaponPivot" instance=ExtResource("4_lvxji")]
+current_weapon = NodePath("Rifle")
 
 [node name="SniperRifle" parent="WeaponPivot" instance=ExtResource("6_qek5x")]
+
+[node name="Rifle" parent="WeaponPivot" instance=ExtResource("7_5gtgg")]
 
 [node name="ReticleContainer" type="Node2D" parent="."]
 
 [node name="PistolReticle" parent="ReticleContainer" instance=ExtResource("6_75vfm")]
+visible = false
 
 [node name="RifleReticle" parent="ReticleContainer" instance=ExtResource("7_0owmy")]
-visible = false
 
 [node name="InvulnerableTimer" type="Timer" parent="."]
 one_shot = true
