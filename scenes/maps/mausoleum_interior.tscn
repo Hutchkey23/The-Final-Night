@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=4 uid="uid://derbec0nr15th"]
+
+[ext_resource type="TileSet" uid="uid://b3ciht8n43isb" path="res://tilesets/main.tres" id="1_opdlc"]
+[ext_resource type="PackedScene" uid="uid://blf0p46xc3f7l" path="res://scenes/objects/enchantment_table.tscn" id="2_3cnfc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opdlc"]
+size = Vector2(32, 9)
+
+[node name="MausoleumInterior" type="Node2D"]
+
+[node name="TileMap" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="Floor" type="TileMapLayer" parent="TileMap"]
+tile_map_data = PackedByteArray("AAD9//7/AgAHAAEAAAD9////AgAHAAMAAAD9/wAAAgAHAAEAAAD9/wEAAgAHAAEAAAD9/wIAAgAHAAEAAAD+//7/AgAHAAEAAAD+////AgAHAAEAAAD+/wAAAgAHAAEAAAD+/wEAAgAHAAEAAAD+/wIAAgAHAAEAAAD///7/AgAHAAEAAAD/////AgAHAAMAAAD//wAAAgAHAAEAAAD//wEAAgAHAAMAAAD//wIAAgAHAAEAAAAAAP7/AgAHAAEAAAAAAP//AgAHAAEAAAAAAAAAAgAHAAEAAAAAAAEAAgAHAAEAAAAAAAIAAgAHAAEAAAABAP7/AgAHAAEAAAABAP//AgAHAAEAAAABAAAAAgAHAAEAAAABAAEAAgAHAAMAAAABAAIAAgAHAAEAAAACAP7/AgAHAAEAAAACAP//AgAHAAEAAAACAAAAAgAHAAEAAAACAAEAAgAHAAEAAAACAAIAAgAHAAEAAAADAP7/AgAHAAEAAAADAP//AgAHAAEAAAADAAAAAgAHAAEAAAADAAEAAgAHAAIAAAADAAIAAgAHAAEAAAD9//3/AgAHAAEAAAD+//3/AgAHAAEAAAD///3/AgAHAAEAAAAAAP3/AgAHAAEAAAABAP3/AgAHAAEAAAACAP3/AgAHAAEAAAADAP3/AgAHAAEAAAD9//z/AgAHAAEAAAD+//z/AgAHAAEAAAD///z/AgAHAAEAAAAAAPz/AgAHAAIAAAABAPz/AgAHAAEAAAACAPz/AgAHAAEAAAADAPz/AgAHAAEAAAD8//z/AgAHAAEAAAD8//3/AgAHAAEAAAD8//7/AgAHAAEAAAD8////AgAHAAEAAAD8/wAAAgAHAAEAAAD8/wEAAgAHAAEAAAD8/wIAAgAHAAEAAAD//wMAAgAHAAEAAAD//wQAAgAHAAEAAAAAAAMAAgAHAAEAAAAAAAQAAgAHAAEAAAA=")
+tile_set = ExtResource("1_opdlc")
+
+[node name="EnchantmentTable" parent="." instance=ExtResource("2_3cnfc")]
+position = Vector2(0, -66)
+
+[node name="TransitionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TransitionArea"]
+position = Vector2(0, 75.5)
+shape = SubResource("RectangleShape2D_opdlc")

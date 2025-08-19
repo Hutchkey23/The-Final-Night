@@ -19,6 +19,7 @@ var weapon_frames := {
 
 @onready var cooldown_timer: Timer = $CooldownTimer
 @onready var gun_sprite: Sprite2D = $GunSprite
+@onready var input_prompt: Sprite2D = $InputPrompt
 @onready var label: Label = $Label
 
 var cooldown = false
@@ -30,6 +31,7 @@ func _ready():
 	weapon_display_name = format_weapon_name(weapon)
 	gun_sprite.frame = weapon_frames[weapon]
 	label.visible = false
+	input_prompt.visible = false
 
 func _process(delta: float) -> void:
 	if cooldown:
@@ -61,6 +63,7 @@ func _on_body_entered(body: Node2D) -> void:
 		player_in_range = true
 		update_label()
 		label.visible = true
+		input_prompt.visible = true
 		highlight(true)
 
 
@@ -69,6 +72,7 @@ func _on_body_exited(body: Node2D) -> void:
 		player_reference = null
 		player_in_range = false
 		label.visible = false
+		input_prompt.visible = false
 		highlight(false)
 		
 func update_label():
@@ -79,7 +83,7 @@ func update_label():
 		
 func highlight(state: bool):
 	if state:
-		gun_sprite.modulate = Color(1.2, 1.2, 1.2)
+		gun_sprite.modulate = Color(1.8, 1.8, 1.8)
 	else:
 		gun_sprite.modulate = Color(1, 1, 1)
 

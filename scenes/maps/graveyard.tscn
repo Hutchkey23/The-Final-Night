@@ -265,6 +265,7 @@ tile_set = ExtResource("1_e3avu")
 [node name="UI" parent="." instance=ExtResource("11_1twvf")]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navigation_region"]]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_5hgo8")
 
 [node name="Mausoleum" type="Polygon2D" parent="NavigationRegion2D"]
