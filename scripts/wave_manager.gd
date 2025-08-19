@@ -3,7 +3,7 @@ extends Node2D
 signal wave_changed(wave_number)
 signal wave_ended(wave_number)
 
-const BASE_WAVE_AMOUNT := 5
+const BASE_WAVE_AMOUNT := 1
 
 @export var zombie_types := {
 	"normal": preload("res://scenes/enemies/zombie_1.tscn")
@@ -18,6 +18,7 @@ const BASE_WAVE_AMOUNT := 5
 
 var map_bounds: Rect2
 
+var in_mausoleum := false
 var wave := 1
 var wave_running = false
 var zombies_remaining := 0
@@ -29,6 +30,8 @@ func _ready() -> void:
 	start_wave()
 	
 func start_wave() -> void:
+	if in_mausoleum:
+		return
 	if wave_running:
 		return
 	emit_signal("wave_changed", wave)

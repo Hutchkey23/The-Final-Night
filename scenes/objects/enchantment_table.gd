@@ -2,6 +2,8 @@ extends StaticBody2D
 
 signal upgrade_weapon(weapon)
 
+@onready var label: Label = $Label
+
 const COOLDOWN_TIME := 1.5
 
 var cooldown = false

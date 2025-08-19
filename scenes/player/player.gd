@@ -6,7 +6,9 @@ signal game_over
 signal health_changed(health, max_health)
 signal weapon_changed(weapon_name)
 
+const CAMERA_TRANSITION_OFFSET := Vector2(0, -20)
 const INVULNERABILITY_LENGTH := 2.0
+const SMOOTH_DURATION := 0.2
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var camera_2d: Camera2D = $Camera2D
@@ -17,6 +19,7 @@ const INVULNERABILITY_LENGTH := 2.0
 @onready var reticle_container: Node2D = $ReticleContainer
 @onready var weapon_slot: Node2D = $WeaponPivot
 
+var can_move := true
 var can_take_damage := true
 var current_weapons = []
 var health := 5
@@ -65,6 +68,9 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func process_movement() -> void:
+	if !can_move:
+		velocity = Vector2.ZERO
+		return
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * MOVE_SPEED
 
@@ -144,6 +150,19 @@ func set_camera_boundaries(left_bound, right_bound, top_bound, bottom_bound) -> 
 	camera_2d.limit_top = top_bound
 	camera_2d.limit_bottom = bottom_bound
 	
+func toggle_camera_smoothing() -> void:
+	camera_2d.position_smoothing_enabled = !camera_2d.position_smoothing_enabled
+
+func offset_camera(direction: String) -> void:
+	if direction == "up":
+		camera_2d.global_position = global_position + CAMERA_TRANSITION_OFFSET
+	elif direction == "down":
+		camera_2d.global_position = global_position - CAMERA_TRANSITION_OFFSET
+
+func smooth_camera_to_player() -> void:
+	var tween = get_tree().create_tween()
+	tween.tween_property(camera_2d, "global_position", global_position, SMOOTH_DURATION)
+
 func has_weapon(weapon_name: String) -> bool:
 	var current_weapon_names = []
 	for weapon in current_weapons:
