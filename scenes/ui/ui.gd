@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var ammo_label: Label = $AmmoLabel
 @onready var gun_icon: TextureRect = $GunIcon
 @onready var health_bar: TextureProgressBar = $Health/HealthBar
+@onready var next_wave_label: Label = $NextWaveLabel
 @onready var points_label: Label = $PointsLabel
 @onready var wave_label: Label = $WaveLabel
 
@@ -23,6 +24,7 @@ func _ready() -> void:
 	player.connect("health_changed", update_health)
 	player.connect("weapon_changed", update_weapon)
 	WaveManager.connect("wave_changed", update_wave)
+	WaveManager.connect("wave_ended", on_wave_ended)
 	PointsManager.connect("points_changed", update_points)
 	gun_icon.texture.region = gun_icon_dict[player.weapon_slot.current_weapon.weapon_name]
 	
@@ -42,6 +44,10 @@ func update_weapon(weapon_name) -> void:
 
 func update_wave(wave_number) -> void:
 	wave_label.text = "Wave: " + str(wave_number)
+	next_wave_label.visible = false
+
+func on_wave_ended(_wave) -> void:
+	next_wave_label.visible = true
 
 func on_game_over() -> void:
 	visible = false

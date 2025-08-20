@@ -64,6 +64,7 @@ func on_transition_to_exterior(player: Player):
 	await get_tree().create_timer(0.5).timeout
 	mausoleum.close_door()
 	WaveManager.in_mausoleum = false
+	WaveManager.start_wave()
 	player.can_move = true
 
 

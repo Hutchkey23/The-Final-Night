@@ -18,6 +18,7 @@ const BASE_WAVE_AMOUNT := 1
 
 var map_bounds: Rect2
 
+var awaiting_input := false
 var in_mausoleum := false
 var wave := 1
 var wave_running = false
@@ -28,7 +29,15 @@ var player
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	start_wave()
-	
+
+func _process(delta: float) -> void:
+	if !awaiting_input:
+		return
+		
+	if Input.is_action_just_pressed("interact"):
+		awaiting_input = false
+		start_wave()
+
 func start_wave() -> void:
 	if in_mausoleum:
 		return
@@ -84,7 +93,7 @@ func end_wave() -> void:
 	emit_signal("wave_ended", wave)
 	await get_tree().create_timer(1.5).timeout
 	wave += 1
-	start_wave()
+	awaiting_input = true
 
 func get_random_offscreen_position() -> Vector2:
 	var viewport_rect = get_viewport().get_visible_rect()
