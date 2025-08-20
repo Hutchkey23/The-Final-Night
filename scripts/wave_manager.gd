@@ -1,5 +1,6 @@
 extends Node2D
 
+signal hide_next_wave_label
 signal wave_changed(wave_number)
 signal wave_ended(wave_number)
 

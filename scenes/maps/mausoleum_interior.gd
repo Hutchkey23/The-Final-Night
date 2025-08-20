@@ -2,6 +2,7 @@ extends Node2D
 
 signal transition_to_exterior(player)
 
+@onready var interior_camera: Camera2D = $InteriorCamera
 @onready var spawn_point: Node2D = $SpawnPoint
 
 

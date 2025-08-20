@@ -23,6 +23,7 @@ func _ready() -> void:
 	player.connect("game_over", on_game_over)
 	player.connect("health_changed", update_health)
 	player.connect("weapon_changed", update_weapon)
+	WaveManager.connect("hide_next_wave_label", on_hide_next_wave_label)
 	WaveManager.connect("wave_changed", update_wave)
 	WaveManager.connect("wave_ended", on_wave_ended)
 	PointsManager.connect("points_changed", update_points)
@@ -44,6 +45,9 @@ func update_weapon(weapon_name) -> void:
 
 func update_wave(wave_number) -> void:
 	wave_label.text = "Wave: " + str(wave_number)
+	next_wave_label.visible = false
+
+func on_hide_next_wave_label() -> void:
 	next_wave_label.visible = false
 
 func on_wave_ended(_wave) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://derbec0nr15th"]
+[gd_scene load_steps=10 format=4 uid="uid://derbec0nr15th"]
 
 [ext_resource type="Script" uid="uid://b0c2gmpl7vvpy" path="res://scenes/maps/mausoleum_interior.gd" id="1_3cnfc"]
 [ext_resource type="TileSet" uid="uid://b3ciht8n43isb" path="res://tilesets/main.tres" id="1_opdlc"]
@@ -7,6 +7,22 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_opdlc"]
 size = Vector2(32, 9)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ip31w"]
+a = Vector2(0, -16)
+b = Vector2(0, 111)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_3m6kk"]
+a = Vector2(-65, 48)
+b = Vector2(-16, 48)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_snema"]
+a = Vector2(-64, -63)
+b = Vector2(63, -63)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_qb6xk"]
+a = Vector2(-16, 48)
+b = Vector2(-16, 80)
 
 [node name="MausoleumInterior" type="Node2D"]
 z_index = -1
@@ -40,5 +56,40 @@ position = Vector2(0, 67)
 [node name="UI" parent="." instance=ExtResource("5_3m6kk")]
 
 [node name="BulletContainer" type="Node2D" parent="." groups=["bullet_container"]]
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(-64, -63)
+shape = SubResource("SegmentShape2D_ip31w")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(63, -63)
+shape = SubResource("SegmentShape2D_ip31w")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Boundaries"]
+shape = SubResource("SegmentShape2D_3m6kk")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(80, 0)
+shape = SubResource("SegmentShape2D_3m6kk")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(0, -15)
+shape = SubResource("SegmentShape2D_snema")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Boundaries"]
+shape = SubResource("SegmentShape2D_qb6xk")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(32, 0)
+shape = SubResource("SegmentShape2D_qb6xk")
+
+[node name="InteriorCamera" type="Camera2D" parent="."]
+position = Vector2(0, -32)
+enabled = false
+zoom = Vector2(1.5, 1.5)
 
 [connection signal="body_entered" from="TransitionArea" to="." method="_on_transition_area_body_entered"]

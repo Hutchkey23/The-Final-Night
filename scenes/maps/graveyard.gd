@@ -42,6 +42,7 @@ func set_up_player_camera(location: String) -> void:
 
 func on_transition_to_interior(player: Player):
 	WaveManager.in_mausoleum = true
+	WaveManager.emit_signal("hide_next_wave_label")
 	set_up_player_camera("interior")
 	toggle_boundaries()
 	player.toggle_camera_smoothing()

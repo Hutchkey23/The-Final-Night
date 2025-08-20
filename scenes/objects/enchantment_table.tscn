@@ -26,7 +26,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_6o28y"]
 resource_name = "enchanting_weapon"
 length = 1.54
-loop_mode = 1
 step = 0.12
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -179,7 +178,6 @@ libraries = {
 autoplay = "idle"
 
 [node name="InteractionArea" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 shape = SubResource("CircleShape2D_mowio")
@@ -187,6 +185,7 @@ shape = SubResource("CircleShape2D_mowio")
 [node name="CooldownTimer" type="Timer" parent="."]
 
 [node name="InputPrompt" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, -33)
 texture = ExtResource("3_r6ypb")
 hframes = 13
@@ -194,6 +193,7 @@ vframes = 5
 frame = 4
 
 [node name="Label" type="Label" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -219,3 +219,4 @@ autoplay = "button_press"
 
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
+[connection signal="timeout" from="CooldownTimer" to="." method="_on_cooldown_timer_timeout"]
