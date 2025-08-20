@@ -245,14 +245,14 @@ ammo_cost = 1000
 [node name="RifleStation" parent="YSort/ActorsContainer/GunBuyStations" instance=ExtResource("10_23pi0")]
 position = Vector2(790, 129)
 weapon = "rifle"
-weapon_cost = 7500
-ammo_cost = 5000
+weapon_cost = 3500
+ammo_cost = 1500
 
 [node name="SniperRifleStation" parent="YSort/ActorsContainer/GunBuyStations" instance=ExtResource("10_23pi0")]
 position = Vector2(168, -147)
 weapon = "sniper_rifle"
-weapon_cost = 5000
-ammo_cost = 4000
+weapon_cost = 2500
+ammo_cost = 1250
 
 [node name="BulletContainer" type="Node2D" parent="YSort" groups=["bullet_container"]]
 y_sort_enabled = true

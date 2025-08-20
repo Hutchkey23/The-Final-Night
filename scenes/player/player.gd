@@ -7,7 +7,7 @@ signal health_changed(health, max_health)
 signal weapon_changed(weapon_name)
 
 const CAMERA_TRANSITION_OFFSET := Vector2(0, -20)
-const INVULNERABILITY_LENGTH := 2.0
+const INVULNERABILITY_LENGTH := 0.75
 const SMOOTH_DURATION := 0.2
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
