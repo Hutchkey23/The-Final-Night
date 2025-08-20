@@ -43,23 +43,17 @@ func set_up_player_camera(location: String) -> void:
 func on_transition_to_interior(player: Player):
 	WaveManager.in_mausoleum = true
 	WaveManager.emit_signal("hide_next_wave_label")
-	set_up_player_camera("interior")
 	toggle_boundaries()
-	player.toggle_camera_smoothing()
 	player.global_position = mausoleum_interior.spawn_point.global_position
-	player.offset_camera("down")
+	player.camera_2d.enabled = false
+	mausoleum_interior.interior_camera.enabled = true
 	await get_tree().process_frame
-	player.smooth_camera_to_player()
-	player.toggle_camera_smoothing()
 
 func on_transition_to_exterior(player: Player):
-	set_up_player_camera("exterior")
-	player.toggle_camera_smoothing()
 	player.global_position = exit_mausoleum_spawn_point.global_position
-	player.offset_camera("up")
 	await get_tree().process_frame
-	player.smooth_camera_to_player()
-	player.toggle_camera_smoothing()
+	mausoleum_interior.interior_camera.enabled = false
+	player.camera_2d.enabled = true
 	toggle_boundaries()
 	player.can_move = false
 	await get_tree().create_timer(0.5).timeout

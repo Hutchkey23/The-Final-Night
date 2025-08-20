@@ -607,3 +607,11 @@ shape = SubResource("WorldBoundaryShape2D_wae5r")
 
 [node name="ExitMausoleumSpawnPoint" type="Node2D" parent="."]
 position = Vector2(288, 194)
+
+[node name="MasoleumInteriorBG" type="ColorRect" parent="."]
+z_index = -3
+offset_left = 1368.0
+offset_top = -161.0
+offset_right = 1807.0
+offset_bottom = 95.0
+color = Color(0, 0, 0, 1)
