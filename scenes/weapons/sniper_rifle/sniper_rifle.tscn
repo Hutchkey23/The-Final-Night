@@ -122,6 +122,7 @@ _data = {
 [node name="SniperRifle" type="Node2D" groups=["weapons"]]
 script = ExtResource("1_i62ir")
 bullet_type = "LARGE_BULLET"
+bullet_health = 3
 
 [node name="SniperRifleSprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_ivvcx")

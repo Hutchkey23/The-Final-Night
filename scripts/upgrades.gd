@@ -1,0 +1,118 @@
+extends Node
+
+var upgrades := {
+	"pistol": {
+		2: {
+			"cost": 5000,
+			"bullet_health": 1,
+			"damage": 4,
+			"fire_rate": 0.45,
+			"mag_size": 16,
+			"max_ammo": 150,
+			"reload_length": 1.10,
+		},
+		3: {
+			"cost": 6000,
+			"bullet_health": 2,
+			"damage": 6,
+			"fire_rate": 0.40,
+			"mag_size": 20,
+			"max_ammo": 180,
+			"reload_length": 1.00,
+		},
+		4: {
+			"cost": 8000,
+			"bullet_health": 2,
+			"damage": 8,
+			"fire_rate": 0.35,
+			"mag_size": 24,
+			"max_ammo": 210,
+			"reload_length": 0.95,
+		},
+		5: {
+			"cost": 10000,
+			"bullet_health": 4,
+			"damage": 12,
+			"fire_rate": 0.32,
+			"mag_size": 30,
+			"max_ammo": 250,
+			"reload_length": 0.90,
+		}
+	},
+	"rifle": {
+		2: {
+			"cost": 5000,
+			"bullet_health": 1,
+			"damage": 3,
+			"fire_rate": 0.13,
+			"mag_size": 35,
+			"max_ammo": 325,
+			"reload_length": 2.15,
+		},
+		3: {
+			"cost": 6000,
+			"bullet_health": 2,
+			"damage": 5,
+			"fire_rate": 0.12,
+			"mag_size": 40,
+			"max_ammo": 350,
+			"reload_length": 2.05,
+		},
+		4: {
+			"cost": 8000,
+			"bullet_health": 2,
+			"damage": 8,
+			"fire_rate": 0.11,
+			"mag_size": 45,
+			"max_ammo": 375,
+			"reload_length": 1.95,
+		},
+		5: {
+			"cost": 10000,
+			"bullet_health": 3,
+			"damage": 10,
+			"fire_rate": 0.10,
+			"mag_size": 50,
+			"max_ammo": 450,
+			"reload_length": 1.80,
+		}
+	},
+	"sniper_rifle": {
+		2: {
+			"cost": 5000,
+			"bullet_health": 4,
+			"damage": 8,
+			"fire_rate": 1.5,
+			"mag_size": 8,
+			"max_ammo": 60,
+			"reload_length": 3.0,
+		},
+		3: {
+			"cost": 6000,
+			"bullet_health": 5,
+			"damage": 12,
+			"fire_rate": 1.4,
+			"mag_size": 12,
+			"max_ammo": 80,
+			"reload_length": 2.75,
+		},
+		4: {
+			"cost": 8000,
+			"bullet_health": 6,
+			"damage": 16,
+			"fire_rate": 1.35,
+			"mag_size": 16,
+			"max_ammo": 120,
+			"reload_length": 2.50,
+		},
+		5: {
+			"cost": 10000,
+			"bullet_health": 8,
+			"damage": 20,
+			"fire_rate": 1.32,
+			"mag_size": 20,
+			"max_ammo": 150,
+			"reload_length": 2.25,
+		}
+	},
+}

@@ -10,9 +10,12 @@ const LARGE_BULLET = preload("res://scenes/weapons/large_bullet.tscn")
 
 @export var weapon_name := "sniper_rifle"
 @export_enum("SMALL_BULLET", "LARGE_BULLET") var bullet_type: String
+@export var bullet_health := 1
+@export var current_reserve_ammo := 30
 @export var damage := 5
 @export var fire_rate := 1.5
-@export var max_ammo := 5
+@export var mag_size := 5
+@export var max_ammo := 30
 @export var reload_length := 3.2
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -24,14 +27,17 @@ var active := false
 var can_shoot := true
 var current_ammo := 5
 var is_reloading := false
+var weapon_level := 1
 var player_reference: Player
 
 func _ready() -> void:
+	current_reserve_ammo = max_ammo
+	mag_size = WeaponStats.weapon_stats[weapon_name]["mag_size"]
 	visible = false
 	position = GUN_OFFSET
 	
 	reload_timer.wait_time = reload_length
-	current_ammo = max_ammo
+	current_ammo = mag_size
 	
 	player_reference = get_tree().get_first_node_in_group("player")
 	
@@ -71,6 +77,7 @@ func shoot(target_position: Vector2):
 			bullet = SMALL_BULLET.instantiate()
 		"LARGE_BULLET":
 			bullet = LARGE_BULLET.instantiate()
+	bullet.bullet_health = bullet_health
 	var bullet_container = get_tree().get_first_node_in_group("bullet_container")
 	bullet_container.add_child(bullet)
 	bullet.global_position = bullet_spawn.global_position
@@ -114,12 +121,25 @@ func start_reload() -> void:
 	reload_timer.start(reload_length)
 
 func reload_gun() -> void:
-	var reserve = player_reference.reserve_ammo[weapon_name]
-	var ammo_needed = max_ammo - current_ammo
-	var ammo_to_load = min(ammo_needed, reserve)
+	var ammo_needed = mag_size - current_ammo
+	var ammo_to_load = min(ammo_needed, current_reserve_ammo)
 	
+	current_reserve_ammo = max(current_reserve_ammo - ammo_to_load, 0)
 	current_ammo += ammo_to_load
 	emit_signal("reload", weapon_name, ammo_to_load)
 	
 	is_reloading = false
 	can_shoot = true
+
+func upgrade_weapon() -> void:
+	weapon_level += 1
+	bullet_health = Upgrades.upgrades[weapon_name][weapon_level]["bullet_health"]
+	damage = Upgrades.upgrades[weapon_name][weapon_level]["damage"]
+	fire_rate = Upgrades.upgrades[weapon_name][weapon_level]["fire_rate"]
+	mag_size = Upgrades.upgrades[weapon_name][weapon_level]["mag_size"]
+	max_ammo = Upgrades.upgrades[weapon_name][weapon_level]["max_ammo"]
+	reload_length = Upgrades.upgrades[weapon_name][weapon_level]["reload_length"]
+	
+	current_ammo = mag_size
+	current_reserve_ammo = max_ammo
+	emit_signal("fired", weapon_name, current_ammo)

@@ -38,14 +38,6 @@ var weapon_reticles = {
 	"sniper_rifle": preload("res://scenes/weapons/rifle/rifle_reticle.tscn")
 }
 
-var reserve_ammo := {
-	"pistol": 90,
-	"rifle": 90,
-	"rocket_launcher": 0,
-	"shotgun": 0,
-	"sniper_rifle": 30,
-}
-
 const MOVE_SPEED := 120.0
 
 func _ready() -> void:
@@ -97,7 +89,7 @@ func swap_weapon():
 	
 	weapon_slot.current_weapon.become_active()
 	
-	var swap_reserve_ammo = reserve_ammo[weapon_slot.current_weapon.weapon_name]
+	var swap_reserve_ammo = weapon_slot.current_weapon.current_reserve_ammo
 	var swap_current_ammo = weapon_slot.current_weapon.current_ammo
 	emit_signal("ammo_changed", swap_current_ammo, swap_reserve_ammo)
 	emit_signal("weapon_changed", weapon_slot.current_weapon.weapon_name)
@@ -115,12 +107,13 @@ func flip_sprites() -> void:
 		player_sprite.flip_h = true
 
 func on_weapon_reload(weapon_name: String, amount_used: int) -> void:
-	reserve_ammo[weapon_name] = max(reserve_ammo[weapon_name] - amount_used, 0)
 	var ammo_in_weapon = weapon_slot.current_weapon.current_ammo
-	emit_signal("ammo_changed", ammo_in_weapon, reserve_ammo[weapon_name])
+	var reserve_ammo_available = weapon_slot.current_weapon.current_reserve_ammo
+	emit_signal("ammo_changed", ammo_in_weapon, reserve_ammo_available)
 
 func on_weapon_fired(weapon_name: String, current_ammo: int):
-	emit_signal("ammo_changed", current_ammo, reserve_ammo[weapon_name])
+	var reserve_ammo_available = weapon_slot.current_weapon.current_reserve_ammo
+	emit_signal("ammo_changed", current_ammo, reserve_ammo_available)
 	
 func take_damage(damage) -> void:
 	if !can_take_damage:
@@ -187,14 +180,17 @@ func on_buy_station_buy_weapon(weapon_type: String):
 	purchased_weapon.become_active()
 
 	emit_signal("weapon_changed", weapon_type)
-	emit_signal("ammo_changed", purchased_weapon.current_ammo, reserve_ammo[weapon_type])
+	emit_signal("ammo_changed", purchased_weapon.current_ammo, purchased_weapon.current_reserve_ammo)
 	
 	update_weapons()
 
 func on_buy_station_buy_ammo(weapon_type: String):
-	reserve_ammo[weapon_type] = WeaponStats.weapon_stats[weapon_type]["base_max_ammo"]
+	for weapon in weapon_slot.get_children():
+		if weapon.weapon_name == weapon_type:
+			weapon.current_reserve_ammo = WeaponStats.weapon_stats[weapon_type]["max_ammo"]
 	if weapon_slot.current_weapon.weapon_name == weapon_type:
-		emit_signal("ammo_changed", weapon_slot.current_weapon.current_ammo, reserve_ammo[weapon_type])
+		var current_reserve_ammo = weapon_slot.current_weapon.current_reserve_ammo
+		emit_signal("ammo_changed", weapon_slot.current_weapon.current_ammo, current_reserve_ammo)
 
 func update_weapons() -> void:
 	current_weapons.clear()

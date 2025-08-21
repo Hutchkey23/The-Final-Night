@@ -125,7 +125,8 @@ weapon_name = "rifle"
 bullet_type = "SMALL_BULLET"
 damage = 1
 fire_rate = 0.15
-max_ammo = 30
+mag_size = 30
+max_ammo = 300
 reload_length = 2.25
 
 [node name="RifleSprite" type="Sprite2D" parent="."]

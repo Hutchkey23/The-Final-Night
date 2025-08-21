@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 	if !awaiting_input:
 		return
 		
-	if Input.is_action_just_pressed("interact"):
+	if Input.is_action_just_pressed("advance_wave"):
 		awaiting_input = false
 		start_wave()
 

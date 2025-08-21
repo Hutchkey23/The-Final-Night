@@ -38,8 +38,9 @@ func _process(delta: float) -> void:
 		return
 	if player_in_range and Input.is_action_just_pressed("interact") and player_reference:
 		if player_reference.has_weapon(weapon):
-			if player_reference.reserve_ammo[weapon] == WeaponStats.weapon_stats[weapon]["base_max_ammo"]:
-				return
+			for weapon in player_reference.weapon_slot.get_children():
+				if weapon.current_reserve_ammo == WeaponStats.weapon_stats[weapon.weapon_name]["max_ammo"]:
+					return
 			# If player already has weapon, buy ammo
 			if PointsManager.points >= ammo_cost:
 				PointsManager.add_points(-ammo_cost)

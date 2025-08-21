@@ -14,6 +14,7 @@ const BOTTOM_OFFSET := -10
 
 var boundaries_enabled := true
 var player: Player
+var player_current_weapon
 
 func _ready() -> void:
 	WaveManager.in_mausoleum = false

@@ -45,7 +45,7 @@ scale = Vector2(1, 1.00281)
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_7vp6q")
 theme_override_font_sizes/font_size = 24
-text = "12/90"
+text = "12/120"
 horizontal_alignment = 2
 
 [node name="Health" type="Control" parent="."]
@@ -112,4 +112,4 @@ grow_vertical = 0
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_7vp6q")
 theme_override_font_sizes/font_size = 24
-text = "Press E to begin next wave"
+text = "Press F to begin next wave"
