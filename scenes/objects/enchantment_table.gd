@@ -30,6 +30,8 @@ func _process(delta: float) -> void:
 		update_label()
 	
 	if Input.is_action_just_pressed("interact") and player_in_range:
+		if player_current_weapon.weapon_level >= 5:
+			return
 		var upgrade_cost = get_upgrade_cost(player_reference.weapon_slot.current_weapon.weapon_name, player_reference.weapon_slot.current_weapon.weapon_level)
 		if PointsManager.points < upgrade_cost:
 			return
@@ -73,7 +75,10 @@ func format_weapon_name(name: String) -> String:
 func update_label() -> void:
 	var weapon_name = format_weapon_name(player_current_weapon.weapon_name)
 	var cost = str(get_upgrade_cost(player_reference.weapon_slot.current_weapon.weapon_name, player_reference.weapon_slot.current_weapon.weapon_level))
-	label.text = "Upgrade " + weapon_name + " - " + cost + " Points"
+	if player_current_weapon.weapon_level == 5:
+		label.text = weapon_name + " at Max Level"
+	else:
+		label.text = "Upgrade " + weapon_name + " - " + cost + " Points"
 
 func _on_cooldown_timer_timeout() -> void:
 	cooldown = false
