@@ -47,6 +47,8 @@ func upgrade(upgrade_cost) -> void:
 
 func get_upgrade_cost(weapon_name: String, weapon_level: int) -> int:
 	var level_to_check = weapon_level + 1
+	if level_to_check > 5:
+		return 0
 	var cost = Upgrades.upgrades[weapon_name][level_to_check]["cost"]
 	return cost
 
